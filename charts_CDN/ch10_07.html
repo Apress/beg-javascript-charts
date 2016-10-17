@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.pointLabels.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+  var data = [12,8,6,10,7];	
+  var data2 = [14,12,4,14,11];	
+  var data3 = [18,10,5,9,9];		
+  var ticks = ['Germany','Italy','Spain','France','UK'];
+ 
+  var options = {
+  		title: 'Foreign Customers',
+		stackSeries: true,
+		seriesDefaults:{
+		    renderer:$.jqplot.BarRenderer,
+		    pointLabels: { show: true,location: 's' }
+		},
+		series:[
+            {label:'Electronics'},
+            {label:'Software'},
+            {label:'Mechanics'}
+    	],
+		axes: {
+  			xaxis: {
+    			renderer: $.jqplot.CategoryAxisRenderer,
+    			ticks: ticks
+  			}
+  		},
+  		legend: {
+        	show: true,
+        	placement: 'outsideGrid',
+        	location: 'e'
+    	} 	
+  };
+   	
+  $.jqplot ('myChart', [data,data2,data3],options);
+});
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

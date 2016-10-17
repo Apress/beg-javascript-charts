@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+<style>
+#eq span {
+    height:180px; float:left; margin:15px; width:10px;
+}
+</style> 
+</HEAD>	
+<BODY>
+<div id="eq">
+    <span>88</span>
+    <span>77</span>
+    <span>55</span>
+    <span>33</span>
+    <span>40</span>
+    <span>45</span>
+    <span>70</span>
+</div>
+<script>
+$(function() {
+    $( "#eq > span" ).each(function() {
+        // read initial values from markup and remove that
+        var value = parseInt( $( this ).text(), 10 );
+        $( this ).empty().slider({
+            value: value,
+            range: "min",
+            animate: "slow",
+            orientation: "vertical"
+        });
+    });
+});
+</script>	
+</BODY>
+</HTML> 

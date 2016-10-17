@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/3.0.5/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/themes/dark-green.js"></script>
+<script class="code" type="text/javascript">
+$(function () {
+    Highcharts.Data.prototype.dateFormats['m/d/Y'] = {
+        regex: '^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$',
+        parser: function (match) {
+            return Date.UTC(+(match[3]), match[1] - 1, +match[2]);
+        }
+    };
+	
+	$.get('data_08a.csv', function (csv) {
+		
+    var masterChart,detailChart;  
+	var masterOptions = {
+	        colors: ['#FFE76D'],
+	        data: {
+	            csv: csv
+	        },
+	        chart: {
+	            reflow: false,
+	            borderWidth: 0,
+	            backgroundColor: null,
+	            marginLeft: 50,
+	            marginRight: 20,
+	            zoomType: 'x',
+	            events: {
+	                selection: function(event) {
+	                    var extremesObject = event.xAxis[0],
+	                        min = extremesObject.min,
+	                        max = extremesObject.max,
+	                        detailData = [],
+	                        xAxis = this.xAxis[0];
+	
+                        jQuery.each(this.series[0].data, function(i, point) {
+                            if (point.x > min && point.x < max) {
+                                detailData.push({
+                                    x: point.x,
+                                    y: point.y
+                                });
+                            }
+                        });
+
+	                    xAxis.removePlotBand('mask-before');
+	                    xAxis.addPlotBand({
+	                        id: 'mask-before',
+	                        from: Date.UTC(2012, 7, 1),
+	                        to: min,
+	                        color: 'rgba(1,1,1,0.5)'
+	                    });
+	
+	                    xAxis.removePlotBand('mask-after');
+	                    xAxis.addPlotBand({
+	                        id: 'mask-after',
+	                        from: max,
+	                        to: Date.UTC(2012, 10, 1),
+	                        color: 'rgba(1,1,1,0.5)'
+	                    });
+	                    detailChart.series[0].setData(detailData);
+	                    return false;
+	                }
+	            }
+	        },
+	        title: {
+	            text: null
+	        },
+	        xAxis: {
+	            type: 'datetime',
+	            showLastTickLabel: true,
+	            title: {
+	                text: null
+	            }
+	        },
+	        yAxis: {
+	            gridLineWidth: 0,
+	            labels: {
+	                enabled: false
+	            },
+	            title: {
+	                text: null
+	            },
+	            min: 1.25,
+	            max: 1.31,
+	        },
+	        tooltip: {
+	            formatter: function() {
+	                return false;
+	            }
+	        },
+	        legend: {
+	            enabled: false
+	        },
+	        credits: {
+	            enabled: false
+	        },
+	        plotOptions: {
+	            series: { 
+	            	 fillColor: {
+	                    linearGradient: [0, 0, 0, 70],
+	                    stops: [
+	                        [0, '#FFE76D'],
+	                        [1, 'rgba(0,0,0,0)']
+	                    ]
+	                },
+	                lineWidth: 1,
+	                marker: {
+	                    enabled: false
+	                },
+	                shadow: false,
+	                states: {
+	                    hover: {
+	                        lineWidth: 1
+	                    }
+	                },
+	                enableMouseTracking: false
+	            }
+	        },
+		    series: [{
+		        name: 'open',
+		        type: 'area',
+		            lineWidth: 2,
+		    }],
+	        exporting: {
+	                enabled: false
+	        }
+	};
+
+	var detailOptions = {
+        colors: ["#FFE76D"],
+        data: {
+            csv: csv
+        },
+        chart: {
+            marginBottom: 120,
+            reflow: false,
+            marginLeft: 50,
+            marginRight: 20,
+            style: {
+                position: 'absolute'
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Spaghetti Lunghetti',
+            style:
+			{
+				color: '#FFE76D',
+				fontSize: '16px'
+			}
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            maxZoom: 0.1
+        },
+        tooltip: {
+            formatter: function() {
+                var point = this.points[0];
+                return Highcharts.dateFormat('%A %B %e %Y', this.x) + ':<br/><b>'+
+                       Highcharts.numberFormat(point.y, 2) +' USD</b>';
+            },
+            shared: true
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    enabled: false,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            radius: 3
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Open',
+            lineWidth: 4
+        }],
+        exporting: {
+            enabled: false
+        }
+    };
+        
+    function createMaster() {
+	    masterChart = $('#master-container').highcharts(masterOptions, function(masterChart) {
+	        createDetail(masterChart);
+	    }).highcharts(); // return chart instance
+    }
+
+    function createDetail(masterChart) {
+        var detailData = [],
+            detailStart = Date.UTC(2012, 7, 1);
+
+        jQuery.each(masterChart.series[0].data, function(i, point) {
+            if (point.x >= detailStart) {
+                detailData.push(point.y);
+            }
+        });
+        detailChart = $('#detail-container').highcharts(detailOptions).highcharts();
+    }
+
+    var $container = $('#myChart')
+        .css('position', 'relative');
+
+    var $detailContainer = $('<div id="detail-container">')
+        .appendTo($container);
+
+    var $masterContainer = $('<div id="master-container">')
+        .css({ position: 'absolute', top: 300, height: 80, width: '100%' })
+        .appendTo($container);
+
+    createMaster();
+    });
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 600px; height: 400px;"></div>
+</body>
+</html>

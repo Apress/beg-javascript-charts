@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>	
+.bar.positive {
+  fill: red;
+  stroke: darkred;
+}
+.bar.negative {
+  fill: lightblue;
+  stroke: blue;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+body {
+  font: 14px sans-serif;
+}
+
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var data = [4,3,1,-7,-10,-7,1,5,7,-3,-5,-12,-7,-11,3,7,8,-1];
+
+var margin = {top: 30, right: 10, bottom: 10, left: 30},
+    w = 700 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+
+var xMax = Math.max(-d3.min(data), d3.max(data));
+
+var x = d3.scale.linear()
+    .domain([-xMax, xMax])
+    .range([0, w])
+    .nice();
+
+var y = d3.scale.ordinal()
+    .domain(d3.range(data.length))
+    .rangeRoundBands([0, h], .2);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("top");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "x axis")
+    .call(xAxis);
+
+svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate("+x(0)+",0)")
+      .call(yAxis);
+
+svg.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", function(d) { return d < 0 ? "bar negative" : "bar positive"; })
+    .attr("x", function(d) { return x(Math.min(0, d)); })
+    .attr("y", function(d, i) { return y(i); })
+    .attr("width", function(d) { return Math.abs(x(d) - x(0)); })
+    .attr("height", y.rangeBand());
+
+
+</script>
+</body>
+</html>
+
+

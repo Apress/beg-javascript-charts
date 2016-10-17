@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+<style>	
+path {
+    stroke: steelblue;
+    stroke-width: 3;
+    fill: none;
+}
+line {
+    stroke: black;
+}
+.xGrids {
+	stroke: lightgray;
+}
+.yGrids {
+	stroke: lightgray;
+}
+text {
+    font-family: Verdana;
+    font-size: 9pt;
+}
+</style>
+<body>
+<div id="option">
+    <input name="updateButton" 
+           type="button" 
+           value="Update" 
+           onclick="updateData()" />
+</div>
+<script type="text/javascript">
+var data = [10];
+w = 400;
+h = 300;
+margin_x = 32;
+margin_y = 20;
+ymax = 20;
+ymin = 0;
+y = d3.scale.linear().domain([ymin, ymax]).range([0 + margin_y, h - margin_y]);
+x = d3.scale.linear().domain([0, 10]).range([0 + margin_x, w - margin_x]);
+
+
+var svg = d3.select("body")
+    .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h);
+ 
+var g = svg.append("svg:g")
+    .attr("transform", "translate(0," + h + ")");
+
+// draw the x axis
+g.append("svg:line")
+    .attr("x1", x(0))
+    .attr("y1", -y(0))
+    .attr("x2", x(w))
+    .attr("y2", -y(0));
+ 
+// draw the y axis 
+g.append("svg:line")
+    .attr("x1", x(0))
+    .attr("y1", -y(0))
+    .attr("x2", x(0))
+    .attr("y2", -y(25));	
+
+	
+//draw the xLabels   
+g.selectAll(".xLabel")
+    .data(x.ticks(5))
+    .enter().append("svg:text")
+    .attr("class", "xLabel")
+    .text(String)
+    .attr("x", function(d) { return x(d) })
+    .attr("y", 0)
+    .attr("text-anchor", "middle");
+ 
+// draw the yLabels 
+g.selectAll(".yLabel")
+    .data(y.ticks(5))
+    .enter().append("svg:text")
+    .attr("class", "yLabel")
+    .text(String)
+    .attr("x", 25)
+    .attr("y", function(d) { return -y(d) })
+    .attr("text-anchor", "end");
+
+//draw the x ticks    
+g.selectAll(".xTicks")
+    .data(x.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "xTicks")
+    .attr("x1", function(d) { return x(d); })
+    .attr("y1", -y(0))
+    .attr("x2", function(d) { return x(d); })
+    .attr("y2", -y(0)-5);
+     
+// draw the y ticks 
+g.selectAll(".yTicks")
+    .data(y.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "yTicks")
+    .attr("y1", function(d) { return -1 * y(d); })
+    .attr("x1", x(0)+5)
+    .attr("y2", function(d) { return -1 * y(d); })
+    .attr("x2", x(0));
+
+//draw the x grid   
+g.selectAll(".xGrids")
+    .data(x.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "xGrids")
+    .attr("x1", function(d) { return x(d); })
+    .attr("y1", -y(0))
+    .attr("x2", function(d) { return x(d); })
+    .attr("y2", -y(25));
+     
+// draw the y grid 
+g.selectAll(".yGrids")
+    .data(y.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "yGrids")
+    .attr("y1", function(d) { return -1 * y(d); })
+    .attr("x1", x(w))
+    .attr("y2", function(d) { return -y(d); })
+    .attr("x2", x(0));
+
+var line = d3.svg.line()
+    .x(function(d,i) { return x(i); })
+    .y(function(d) { return -y(d); })
+	
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+function updateData() {
+
+    var last = data[data.length-1];
+    if(data.length > 10){
+    	data.shift();
+    }
+    var newlast = last + getRandomInt(-3,3);
+    if(newlast < 0)
+    	newlast = 0;
+    data.push(newlast);
+
+	if(newlast > ymax){ 
+	   ymin = ymin + (newlast - ymax);
+	   ymax = newlast;
+       y = d3.scale.linear().domain([ymin, ymax]).range([0 + margin_y, h - margin_y]);	
+	}
+
+    if(newlast < ymin){
+	   ymax = ymax - (ymin - newlast);
+	   ymin = newlast;
+       y = d3.scale.linear().domain([ymin, ymax]).range([0 + margin_y, h - margin_y]);
+	}	
+	
+    var svg = d3.select("body").transition();
+
+	g.selectAll(".yLabel").remove();
+    g.selectAll(".yLabel")
+	.data(y.ticks(5))
+    .enter().append("svg:text")
+    .attr("class", "yLabel")
+    .text(String)
+    .attr("x", 25)
+    .attr("y", function(d) { return -y(d) })
+    .attr("text-anchor", "end");
+	
+	g.selectAll(".line").remove();
+    g.append("svg:path")
+         .attr("class","line")
+         .attr("d", line(data));
+
+	// shim layer with setTimeout fallback
+	window.requestAnimFrame = (function(){
+	  return  window.requestAnimationFrame       ||
+			  window.webkitRequestAnimationFrame ||
+			  window.mozRequestAnimationFrame    ||
+			  function( callback ){
+				window.setTimeout(callback, 1000 );
+			  };
+	})();
+
+	 requestAnimFrame(setTimeout(updateData,3000));
+	 render();
+
+};
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){ 
+var data1 = [[10,200],[20,230],[30,214],[40,212],[50,225],[60,234]];
+var data2 = [[10,455],[20,470],[30,465],[40,432],[50,455],[60,464]];
+var data3 = [[10,40],[20,60],[30,54],[40,52],[50,65],[60,54]];
+
+    var options = {
+	series:[
+      	   {},
+      	   {yaxis:'y2axis'}, 
+      	   {yaxis:'y3axis'}
+  	],
+  	axesDefaults:{useSeriesColor: true}, 
+  	axes:{
+             xaxis:{min:0, max:70}, 
+             yaxis:{min:190, max:240},  
+             y2axis:{min:430, max:480}, 
+             y3axis:{min:35, max:80}
+  	}  
+  };
+  $.jqplot ('myChart', [data1,data2,data3], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>
+

@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 13</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.bubbleRenderer.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+var data = [[301,60,29392,"Italy"], [675,65,34205,"France"],    
+	    [506,46,30625,"Spain"], [357,81,37896,"Germany"], 
+	    [450,9,37333,"Sweden"], [30,11,37736,"Belgium"], 
+	    [132,11,27624,"Greece"]];
+
+var options = {
+    title: 'Bubble Chart with Gradient Fills',
+    seriesDefaults:{
+        renderer: $.jqplot.BubbleRenderer,
+        rendererOptions: {
+            bubbleGradients: true,
+            bubbleAlpha: 0.6
+        },
+        shadow: true
+    },
+    axes: {
+    	xaxis: {
+      		label: "Total area [*1000 km3]"
+    	},
+    	yaxis: {
+      		label: "Population [million]"
+    	}
+    }
+};
+
+$.jqplot('myChart',[data],options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

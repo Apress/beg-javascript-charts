@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+<style>	
+body {
+  font: 16px sans-serif;
+}
+
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 40, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var color = d3.scale.category10();
+
+var  circleConstraint = d3.min([h, w]);
+var  radius = d3.scale.linear()
+      .range([0, (circleConstraint / 2)])
+
+var  centerXPos = w / 2 + margin.left;
+var  centerYPos = h / 2 + margin.top;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + centerXPos + ", " + centerYPos + ")");
+
+d3.csv("data_11.csv", function(error, data) {
+  var maxValue = 0;
+  data.forEach(function(d) {
+    d.set1 = +d.set1;
+    d.set2 = +d.set2;
+    if(d.set1 > maxValue)
+    	maxValue = d.set1;
+    if(d.set2 > maxValue)
+    	maxValue = d.set2;
+  });
+
+var topValue = 1.5 * maxValue;
+var ticks = [];
+for(i=0; i < 5;i+=1){
+	ticks[i] = topValue*i/5;
+}
+radius.domain([0,topValue]);
+
+var circleAxes = svg.selectAll(".circle-ticks")
+      .data(ticks)
+      .enter().append("g")
+      .attr("class", "circle-ticks");
+   
+  circleAxes.append("svg:circle")
+      .attr("r", function(d) {return radius(d);})
+      .attr("class", "circle")
+      .style("stroke", "#CCC")
+      .style("fill", "none");
+
+  circleAxes.append("svg:text")
+      .attr("text-anchor", "middle")
+      .attr("dy", function(d) {return radius(d)})
+      .text(String);
+
+lineAxes = svg.selectAll('.line-ticks')
+      .data(data)
+      .enter().append('svg:g')
+      .attr("transform", function (d, i) {
+          return "rotate(" + ((i / data.length * 360) - 90) +
+              ")translate(" + radius(topValue) + ")";
+      })
+      .attr("class", "line-ticks");
+
+  lineAxes.append('svg:line')
+      .attr("x2", -1 * radius(topValue))
+      .style("stroke", "#CCC")
+      .style("fill", "none");
+
+  lineAxes.append('svg:text')
+      .text(function(d) { return d.section; })
+      .attr("text-anchor", "middle") 
+      .attr("transform", function (d, i) {
+          return "rotate("+(90-(i*360/data.length))+")";
+      });
+
+var series = d3.keys(data[0])
+     .filter(function(key) { return key !== "section"; })
+     .filter(function(key) { return key !== ""; });
+
+color.domain(series);
+
+var lines = color.domain().map(function(name){
+	return (data.concat(data[0])).map(function(d){
+		return +d[name];	
+	});
+});
+
+var sets = svg.selectAll(".series")
+      .data(series)
+      .enter().append("g")
+      .attr("class", "series");
+ 
+sets.append('svg:path')
+      .data(lines)
+      .attr("class", "line")
+      .attr("d", d3.svg.line.radial()
+      .radius(function (d) {
+          return radius(d);
+      })
+      .angle(function (d, i) {
+	      if (i == data.length) {
+	          i = 0;
+	      } //close the line
+	      return (i / data.length) * 2 * Math.PI;
+	  }))
+      .data(series)
+      .style("stroke-width", 3)
+      .style("fill","none")
+      .style("stroke", function(d,i){
+      	return color(i);
+      });
+
+var legend = svg.selectAll(".legend")
+      .data(series)
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", w/2 -18)
+      .attr("y", h/2 - 60)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", function(d,i){ return color(i);});
+
+  legend.append("text")
+      .attr("x", w/2 -24)
+      .attr("y", h/2 - 60)
+      .attr("dy","1.2em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+      
+});
+var title = d3.select("svg").append("g")
+      .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")")
+      .attr("class","title")
+     
+  title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("My Radar Chart");
+
+</script>
+</body>
+</html>
+

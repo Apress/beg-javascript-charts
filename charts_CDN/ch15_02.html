@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+	<TITLE>Series selections with controls</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+<style>
+li
+{
+    font-family: "Verdana";
+    font-size: 16;
+    font-weight: bold;
+    text-shadow: 1px 2px 2px #555555;
+    margin: 3px;
+	list-style: none;
+}
+</style>
+<script>
+$(document).ready(function(){
+
+   var dataSet = {
+       data1: [[1,1],[2,2],[3,3],[4,2],[5,3],[6,4]],
+       data2: [[1,3],[2,4],[3,5],[4,6],[5,5],[6,7]],
+       data3: [[1,5],[2,6],[3,8],[4,9],[5,7],[6,9]],
+       data4: [[1,7],[2,8],[3,9],[4,11],[5,10],[6,11]]
+   };
+
+     var options = {
+        seriesDefaults: {
+            showMarker: false
+        },
+		title: 'Series Selection',
+        axes: {
+            xaxis: {},
+            yaxis: {
+		min: 0,
+		max: 12
+            }
+        }
+  };
+
+  var plot1 = $.jqplot ('myChart', [dataSet.data1], options);
+
+    $("input[type=radio][name=dataSeries]").attr("checked", false);
+    $("input[type=radio][name=dataSeries][value=data1]").attr("checked", true);
+    $("input[type=radio][name=dataSeries]").change(function(){ 
+        var val = $(this).val();
+        plot1.series[0].data = dataSet[val];
+        plot1.series[0].renderer.shapeRenderer.strokeStyle = col;
+        plot1.replot();
+    });
+
+    var col = "#4bb2c5";
+    $("input[type=radio][name=colors]").change(function(){ 
+           col = $(this).val();
+    });
+
+});
+
+
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+<table>
+  <td>
+    <tr><div>
+      <ul>
+		<li><input name="dataSeries" value="data1" type="radio" checked />First series</li>
+		<li><input name="dataSeries" value="data2" type="radio" />Second series</li>
+		<li><input name="dataSeries" value="data3" type="radio" />Third series</li>
+		<li><input name="dataSeries" value="data4" type="radio" />Fourth series</li>
+      </ul>
+    </div></tr>
+  </td>
+    <td>
+    <tr><div>
+       <ul>
+		<li><input name="colors" value="#4bb2c5" type="radio" checked />Blue</li>
+		<li><input name="colors" value="#ff3333" type="radio" />Red</li>
+		<li><input name="colors" value="#44bb44" type="radio" />Green</li>
+		<li><input name="colors" value="#ffaa22" type="radio" />Orange</li>
+      </ul>
+    </div></tr>
+  </td>
+</table>
+</BODY>
+</HTML>

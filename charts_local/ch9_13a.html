@@ -1,0 +1,43 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.dateAxisRenderer.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){ 
+  var line1 = [['14-Oct-2012', 1300.41], ['2012-10-15', 1310.50], ['2012/10/16', 1322.88], ['17 Oct 2012', 1312.41], 
+['10/18/2012', 1308.16], ['19-Oct-2012', 1310.71],
+['20-Oct-2012', 1305.01],['21-Oct-2012', 1300.85],
+['22-Oct-2012', 1290.67]];
+
+var options = {
+      title:'Handling Date Values',
+      axes:{
+        xaxis:{
+          renderer:$.jqplot.DateAxisRenderer,
+          tickOptions:{
+            formatString:'%d %b'
+          } 
+        },
+        yaxis:{
+          tickOptions:{
+            formatString:'$%d'
+          } 
+        }
+      }
+  };
+$.jqplot('myChart', [line1], options);
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>
+

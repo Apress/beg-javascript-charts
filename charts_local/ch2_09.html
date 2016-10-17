@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="../src/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+<script src="../src/js/jquery-1.9.1.js"></script>
+<script src="../src/js/jquery-ui-1.10.3.custom.min.js"></script> 
+
+<style>
+.ui-widget {
+		font-size: 18px;
+	}  
+</style>
+</HEAD>	
+<BODY>
+<div class="ui-widget">
+    <label>Select your destination:</label>
+    <select id="combobox">
+        <option value="">Select one...</option>
+        <option value="Amsterdam">Amsterdam</option>
+        <option value="London">London</option>
+        <option value="Rome">Rome</option>
+    </select>
+</div>
+<script>
+$(function() {
+     $( "#combobox" ).combobox();
+});
+</script>	
+</BODY>
+</HTML> 

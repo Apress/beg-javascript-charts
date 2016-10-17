@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="../src/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../src/js/highcharts.js"></script>
+<script class="code" type="text/javascript">
+      var serie1 = [1,2,3,2,3,4];
+      var serie2 = [3,4,5,6,5,7];
+      var serie3 = [5,6,8,9,7,9];
+      var serie4 = [7,8,9,11,10,11];
+$(function () {
+        $('#myChart').highcharts({
+            chart: {
+                type: 'line'
+            },
+           series: [{
+                data: serie1
+            }, {
+                data: serie2 
+            }, {
+                data: serie3
+            }, {
+                data: serie4
+            }] 
+        });
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 500px; height: 400px;"></div>
+</body>
+</html>

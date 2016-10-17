@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 12</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.ohlcRenderer.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+var data1 = [[1,75,80,40,55],[2,30,60,15,50],[3,64,75,48,50],[4,67,78,20,36]];
+var ticks = ['Apple', 'Ubuntu', 'Microsoft', 'Android'];
+
+var options = {
+  	axes: {
+      	   xaxis: {
+              renderer:$.jqplot.CategoryAxisRenderer,
+              ticks:ticks
+      	   }
+  	},
+  	series: [{ renderer:$.jqplot.OHLCRenderer, 
+                    rendererOptions:{candleStick:true}
+                  }]
+  };
+
+$.jqplot ('myChart', [data1], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

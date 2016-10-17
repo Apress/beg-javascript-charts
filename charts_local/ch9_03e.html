@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+</HEAD>	
+<BODY>
+<script>
+$(document).ready(function(){ 
+      var data = [[100,110,140,130,80,75,120,130,100]] ;
+      var options = {
+        title: 'My Line Chart',
+        axesDefaults: {
+        	  labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+        },
+        axes: {
+			xaxis: {
+		 		label: "X Axis",
+		       	          numberTicks: 5
+		         },
+
+        	  yaxis: {
+               	label: "Y Axis"
+        	  }
+        }
+      };
+      $.jqplot ('myChart', data, options);
+});
+</script>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.mekkoRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.mekkoAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+    var bar1 = [['bananas', 10],['apples', 7],['pears', 4],
+                ['peaches', 8],['lemons', 7],['oranges',5]];
+    var bar2 = [9,5,8,11,9,4];
+    var bar3 = [11,4,7,3,8,7];
+    var bar4 = [5,8,11,4,12,3];
+    var barLabels = ['Italy', 'Spain', 'France', 'Greece'];
+
+var options = {
+        title: 'Fruit Consumption in 2012',
+        seriesDefaults:{renderer:$.jqplot.MekkoRenderer},
+        legend:{show:true},
+        axesDefaults:{
+            renderer:$.jqplot.MekkoAxisRenderer
+        },
+        axes:{
+            xaxis:{ 
+                barLabels:barLabels,
+                tickOptions:{formatString:'%d'}
+            }
+        }
+};
+
+$.jqplot('myChart', [bar1, bar2, bar3, bar4], options);
+
+});
+
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

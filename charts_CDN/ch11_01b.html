@@ -1,0 +1,36 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 11</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"> </script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+var data = [ ['Dairy', 212],['Meat', 140], ['Grains', 276], 
+['Fish', 131],['Vegetables', 510], ['Fruit', 325] ];
+
+var options =   { 
+  	seriesDefaults: {
+    		renderer: jQuery.jqplot.PieRenderer, 
+		rendererOptions: {
+			showDataLabels: true,
+			dataLabels: 'value'
+		}
+  	}
+};
+
+$.jqplot ('myChart', [data], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

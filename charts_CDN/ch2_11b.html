@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+<style>
+.ui-progressbar {
+	height: 20px;
+	width: 600px;
+}
+.ui-progressbar .ui-progressbar-value {	background-image: url(images/pbar-ani.gif); }
+</style>
+</HEAD>	
+<BODY>
+<div id="progressbar"></div>
+<script>
+$(function() {
+    $( "#progressbar" ).progressbar({
+        value: 37
+    });
+});
+
+</script>	
+</BODY>
+</HTML> 

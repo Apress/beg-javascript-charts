@@ -1,0 +1,35 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+  function generateRandomData(npts, start, delta) {
+      var data = [];
+      if (delta == null) {
+          delta = start;
+          start = (Math.random() - 0.5) * 2 * delta;
+      }
+      for (j=0; j<npts; j++) {
+          data.push([j, start]);
+          start += (Math.random() - 0.5) * 2 * delta;
+      }
+      return data;
+  }
+  
+  var data = generateRandomData(30, 100, 1);
+  $.jqplot('myChart', [data]);
+
+});
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>
+

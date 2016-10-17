@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 13</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.blockRenderer.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+var data1 = [[10,30,'Copper'],[100,40,'Gold'],[50,50,'Silver'] ,[12,78,'Lead'],[44,66,'Brass']];
+var data2 = [[68,15,'Maple'],[33,22,'Oak'],[10,90,'Ebony'],[94,30,'Beech'] ,[70,70,'Ash']];
+var data3 = [[22,16,'PVC'],[56,76,'PE'],[33,78,'PET'],[27,60,'PC'], [70,44,'PU']];
+
+  var options = {
+    seriesDefaults:{
+        renderer:$.jqplot.BlockRenderer
+    }
+  };
+
+$.jqplot ('myChart', [data1,data2,data3], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

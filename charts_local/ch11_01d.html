@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 11</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.pieRenderer.min.js"> </script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+var data = [ ['Dairy', 212],['Meat', 140], ['Grains', 276], 
+['Fish', 131],['Vegetables', 510], ['Fruit', 325] ];
+
+var options =   { 
+  	seriesDefaults: {
+    		renderer: jQuery.jqplot.PieRenderer, 
+		rendererOptions: {
+			showDataLabels: true,
+			dataLabels: 'value',
+          		sliceMargin: 6,
+			fill: false,
+			// stroke the slices with a little thicker line.
+			lineWidth: 5
+		}
+  	}
+};
+
+$.jqplot ('myChart', [data], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

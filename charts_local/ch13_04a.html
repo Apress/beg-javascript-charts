@@ -1,0 +1,40 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 13</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.blockRenderer.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+var data = [[400,35],[402,37],[650,55],[653,56],[650,50],
+            [700,55],[600,37],[601,43],[450,38],[473,37],
+            [480,42],[417,37],[510,41],[553,44],[570,39],
+            [527,41],[617,41],[625,49]];
+var data2 = [[100,40],[600,80],[200,50],[300,55],[400,60],
+             [500,70],[123,43],[110,41],[157,45],[160,48],
+             [237,49],[248,55],[287,50],[321,59],[359,52],
+             [387,62],[466,68],[533,74],[344,60],[323,51],
+             [430,65]];
+
+var options = {
+    title: 'Scatter Chart',
+	seriesDefaults: {
+		showLine: false,
+		showMarkers: true
+	}
+};
+
+$.jqplot('myChart',[data, data2],options);
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

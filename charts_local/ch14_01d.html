@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 14</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.funnelRenderer.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+var data = [['Sony',1] , ['Samsung',13] , ['LG',14] , ['Philips',5]];
+
+var options = { 
+	seriesDefaults: {
+            renderer: $.jqplot.FunnelRenderer,
+		rendererOptions: {
+       			dataLabels: 'percent',
+       			showDataLabels: true,
+       			fill: false,
+       			lineWidth: 4
+		}
+	},
+	title: {
+	    text: 'Basic Funnel Chart'
+	},
+	legend: {
+		location: 'e',
+		show: true
+	}
+};
+
+$.jqplot('myChart', [data], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

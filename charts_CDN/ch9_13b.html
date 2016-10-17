@@ -1,0 +1,41 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){ 
+  var line1 = [['2012-10-14 08:00AM',30],['2012-10-14 10:00AM',60],
+['2012-10-14 00:00PM',120], ['2012-10-14 02:00PM',60],
+['2012-10-14 04:00PM',100], ['2012-10-14 06:00PM',40]]
+
+  var options = {
+      title:'Museum Visitors',
+      axes:{
+        xaxis:{
+          label: 'time',
+          renderer:$.jqplot.DateAxisRenderer,
+          tickOptions:{
+            formatString:'%R'
+          } 
+        },
+        yaxis:{
+        	label: 'visitors'
+        }
+      }
+  };
+   $.jqplot('myChart', [line1], options);
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>
+

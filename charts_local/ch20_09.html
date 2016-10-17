@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+<style>	
+body {
+  font: 10px verdana;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #333;
+}
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+    stroke-width: 0;
+}
+.area.above {
+  fill: darkred;
+}
+
+.area.below {
+  fill: darkgreen;
+}
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+
+var margin = {top: 70, right: 20, bottom: 30, left: 50},
+    w = 400 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%d-%b-%y").parse;
+var x = d3.time.scale().range([0, w]);
+var y = d3.scale.linear().range([h, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .ticks(5);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(5);
+    
+var xGrid = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .ticks(5)
+    .tickSize(-h, 0, 0)
+    .tickFormat("")
+    
+var yGrid = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(5)
+    .tickSize(-w, 0, 0)
+    .tickFormat("")
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Here we add the d3.tsv function
+// start of the part of code to include in the d3.tsv() function
+d3.tsv("data_03.tsv", function(error, data) {
+  
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);    
+    d.income = +d.income;
+    d.expense = +d.expense;
+  });
+
+x.domain(d3.extent(data, function(d) { return d.date; }));
+y.domain([
+    d3.min(data, function(d) {return Math.min(d.income, d.expense); }),
+    d3.max(data, function(d) {return Math.max(d.income, d.expense); })
+  ]);
+
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+  
+  svg.append("g")         
+      .attr("class", "grid")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xGrid)
+        
+  svg.append("g")         
+      .attr("class", "grid")
+      .call(yGrid);
+
+var line = d3.svg.area()
+    .interpolate("basis")
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d["income"]); });
+
+var area = d3.svg.area()
+    .interpolate("basis")
+    .x(function(d) { return x(d.date); })
+    .y1(function(d) { return y(d["income"]); });
+
+svg.datum(data);     
+      
+   svg.append("clipPath")
+      .attr("id", "clip-below")
+      .append("path")
+      .attr("d", area.y0(h));
+ 
+   svg.append("path")
+      .attr("class", "area below")
+      .attr("clip-path", "url(#clip-below)")
+      .attr("d", area.y0(function(d) { return y(d.expense); }));
+
+  svg.append("clipPath")
+      .attr("id", "clip-above")
+      .append("path")
+      .attr("d", area.y0(0));
+      
+  svg.append("path")
+      .attr("class", "area above")
+      .attr("clip-path", "url(#clip-above)")
+      .attr("d", area.y0(function(d) { return y(d.expense); })); 
+
+
+svg.append("path")
+      .attr("class", "line")
+      .attr("d", line);
+
+
+});
+
+var labels = svg.append("g")
+       .attr("class","labels")
+     
+  labels.append("text")
+      .attr("transform", "translate(0," + h + ")")
+      .attr("x", (w-margin.right))
+      .attr("dx", "-1.0em")  
+      .attr("dy", "2.0em")
+      .text("[Months]");
+  labels.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -40)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Millions ($)");
+   
+  var title = svg.append("g")
+         .attr("class","title")
+     
+  title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("A difference chart"); 
+</script>
+</body>
+</html>
+

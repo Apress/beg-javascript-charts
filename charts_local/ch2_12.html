@@ -1,0 +1,30 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="../src/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+<script src="../src/js/jquery-1.9.1.js"></script>
+<script src="../src/js/jquery-ui-1.10.3.custom.min.js"></script> 
+<style>
+.ui-slider {
+	width: 400px;
+	height: 10px;
+}
+.ui-slider .ui-slider-handle {
+	width: 12px;
+	height: 20px;
+}
+</style>
+</HEAD>	
+<BODY>
+<div id="slider"></div>
+<script>
+$(function() {
+    $( "#slider" ).slider({
+    	value: 60,
+        orientation: "horizontal",
+        range: "min",
+        animate: "slow"
+    });
+});
+</script>	
+</BODY>
+</HTML> 

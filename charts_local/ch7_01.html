@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<TITLE>MyChart</TITLE>
+</HEAD>
+<BODY>
+<link href="./myLibrary.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="./myLibrary.js"></script>		
+<script>
+$(document).ready(function(){
+  
+  var data = [[12, 40, 75, 23, 42, 80],
+			 [3, 22, 40, 27, 35, 21], 
+			 [60, 80, 16, 28, 33, 26], 
+			 [46, 7, 14, 26, 36, 24]];
+  
+  var options = {
+  	//type: 'line',
+  	type: 'bar',
+  	//type: 'pie',
+  	categories: ["May 2012", "Jun 2012", "Jul 2012", "Aug 2012", "Sep 2012", "Oct 2012"],
+  	series:	["USA","Canada","Australia", "Brazil"],
+  	colors: ['#be1e2d', '#666699', '#92d5ea', '#ee8310'],
+  	margins: {top: 30, right: 10, bottom: 10, left: 30},
+  	bar: {
+  		barGroupMargin: 4
+  	}
+  	
+  }
+  
+  myLibrary("#myCanvas",data,options);
+  
+});	
+</script>
+<canvas id="myCanvas" width="500" height="400"> </canvas> 
+</BODY>
+</HTML>

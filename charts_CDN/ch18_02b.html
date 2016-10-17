@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/3.0.5/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script class="code" type="text/javascript">
+$(function () {
+	
+    Highcharts.Data.prototype.dateFormats['m/d/Y'] = {
+        regex: '^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$',
+        parser: function (match) {
+            return Date.UTC(match[3], match[1] - 1, +match[2]);
+        }
+    };
+	
+	$.get('data_08a.csv', function (csv) {
+        
+        //PARSER
+        var open = [];
+        var max = [];
+        var lines = csv.split('\n');
+	    $.each(lines, function(lineNo, line) {
+	        var items = line.split(',');
+	        if (lineNo != 0) {    
+	        	open.push([items[0],parseFloat(items[1])]);
+	        	max.push([items[0],parseFloat(items[3])]);  
+	        }     
+	 });
+
+	var options = {
+            colors: ["#005B06","#9D3C27"],
+            //data: {
+            //    csv: csv
+            //},
+            subtitle: {
+                text: 'Prices of the day',
+                style: {
+			color: '#005B06',
+			fontSize: '12px'
+		}
+            },
+
+            title: {
+                text: 'Spaghetti Lunghetti',
+                style: 	{
+			color: '#005B06',
+			fontSize: '16px'
+		}
+            },
+            xAxis: {
+                type: 'datetime',
+                tickInterval: 7 * 24 * 3600 * 1000, // one week
+                tickWidth: 0,
+                gridLineWidth: 1,
+                labels: {
+                    align: 'left',
+                }
+            },
+            yAxis: { 
+                title: {
+                    text: 'Dollars ($)',
+                    style: {
+			color: '#005B06',
+			fontSize: '12px'
+		    }
+                },
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        stops: [
+                            [0, '#00602F'],
+                            [1, '#FFFFFF']
+                        ]
+                    },
+                    lineWidth: 1,
+                    marker: {
+                        enabled: false
+                    },
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                },
+             },
+            series: [{
+            	data: open,
+                name: 'Open',
+                type: 'area',
+                lineWidth: 4,
+                marker: {
+                    radius: 4
+                },
+            },{
+            	data: max,
+                name: 'Max',
+                type: 'spline',
+                lineWidth: 4,
+                marker: {
+                    enabled: false
+                }
+            }]
+        };
+
+	   
+        
+        $('#myChart').highcharts(options);       
+    });
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 600px; height: 400px;"></div>
+</body>
+</html>

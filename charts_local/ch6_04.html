@@ -1,0 +1,294 @@
+<HTML>
+<HEAD>
+<TITLE>MyChart</TITLE>
+<style type="text/css">
+table.myTable caption {
+   font-size: 14px;
+   padding-bottom: 5px;
+   font-weight: bold;
+}
+table.myTable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse; 
+}
+table.myTable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background:#b5cfd2 url('images/cell-blue.jpg');
+}
+table.myTable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background:#dcddc0 url('images/cell-grey.jpg');
+}
+ul, .li { 
+    margin: 0; 
+    padding: 0;
+}
+.labels { 
+    list-style: none; 
+}
+.label-pos, label { 
+    position: absolute; 
+    margin-left: 0px; 
+    margin-top: 0px; 
+    padding:0; 
+}
+.label { display: block; 
+    color: #fff; 
+    font-weight: bold; 
+    font-size: 1em; 
+} 
+.chart-title { 
+    font-size: 24; 
+    font-weight: bold; 
+    position: absolute; 
+    left: 150px; 
+    top: 10px; 
+    width: 100%;  
+} 
+.legend {
+    list-style: none;
+    position: absolute;
+    left:520;
+    top: 40;
+    border: 1px solid #000;
+    padding: 10px;
+}
+.legend li span {
+    width: 12px;
+    height: 12px;
+    float: left;
+    margin: 3px;
+}
+
+</style>
+</HEAD>
+<BODY>
+<canvas id="myCanvas" width="500" height="400"> </canvas>
+<br><br><br>
+<table class="myTable">
+<caption>Balloons lost in space</caption>
+<thead>
+<tr>
+<td></td>
+<th>May 2013</th>
+<th>Jun 2013</th>
+<th>Jul 2013</th>
+<th>Aug 2013</th>
+<th>Sep 2013</th>
+<th>Oct 2013</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>USA</th>
+<td>12</td>
+<td>40</td>
+<td>75</td>
+<td>23</td>
+<td>42</td>
+<td>80</td>
+</tr>
+<tr>
+<th>Canada</th>
+<td>3</td>
+<td>22</td>
+<td>40</td>
+<td>27</td>
+<td>35</td>
+<td>21</td>
+</tr>
+<tr>
+<th>Australia</th>
+<td>60</td>
+<td>80</td>
+<td>16</td>
+<td>28</td>
+<td>33</td>
+<td>26</td>
+</tr>
+<tr>
+<th>Brazil</th>
+<td>46</td>
+<td>7</td>
+<td>14</td>
+<td>26</td>
+<td>36</td>
+<td>24</td>
+</tr>
+</tbody>
+<tfoot>
+<tr><td colspan="7">Data from statistical office of the Republic of Unhappy Children</td></tr>
+</tfoot>
+</table>
+<script type="text/javascript" src="../src/jquery.min.js"></script>		
+<script>
+$(document).ready(function(){
+  
+var canvas = $("#myCanvas");
+var ctx = canvas.get(0).getContext("2d");
+var colors = ['#be1e2d', '#666699', '#92d5ea', '#ee8310'];
+var margin = {top: 30, right: 10, bottom: 10, left: 30},
+    w = canvas.width() - margin.left - margin.right,
+    h = canvas.height() - margin.top - margin.bottom;
+ctx.strokeRect(margin.left,margin.top,w,h);
+
+var pieMargin = margin.top + 30;
+var center_x = Math.round(w/2)+margin.left;
+var center_y = Math.round(h/2)+margin.top;
+var radius = center_y - pieMargin;				
+var counter = 0.0;
+
+   var tableData = {};
+   var table = $('table');
+   
+   tableData.xLabels = [];
+   table.find('thead th').each(function(){
+   		tableData.xLabels.push( $(this).html() );
+   });
+   tableData.legend = [];
+   table.find('tbody th').each(function(){
+   		tableData.legend.push( $(this).html() );
+   });	
+   var tmp = [];
+   table.find('tbody td').each(function(){
+		var thisVal = parseFloat( $(this).text() );
+		tmp.push(thisVal);
+   });
+   if(Math.min.apply(null, tmp) > 0)
+   		tableData.minVal = 0;
+   else
+        tableData.minVal = Math.min.apply(null, tmp);
+   tableData.maxVal = 1.1 * Math.max.apply(null, tmp);
+	
+	
+   tableData.yLabels = [];
+	var yDeltaPixels = 30;
+	//var h = 360;
+	//var w = 460;
+	var nTicks = Math.round(h / yDeltaPixels);
+	var yRange = tableData.maxVal - tableData.minVal;
+	var yDelta = Math.ceil(yRange / nTicks);
+	var yVal = tableData.minVal;
+	while( yVal < (tableData.maxVal - yDelta)){
+		tableData.yLabels.push(yVal);
+		yVal += yDelta;
+	}
+	tableData.yLabels.push(yVal);
+	tableData.yLabels.push(tableData.maxVal);
+
+   
+   	tableData.dataGroups = [];
+	table.find('tbody tr').each(function(i){
+		tableData.dataGroups[i] = [];
+		$(this).find('td').each(function(){
+			var tdVal = parseFloat( $(this).text() );
+			tableData.dataGroups[i].push( tdVal );
+		});
+	});
+
+
+var dataSum = function(){
+	var dataSum = 0;
+	for(var i in tableData.dataGroups){
+		var points = tableData.dataGroups[i];
+		for(var j in points){
+			dataSum += points[j];
+		}
+	}
+	return dataSum;
+}
+var dataSum = dataSum();
+
+var labels = $('<ul class="labels"></ul>')
+		.insertBefore(canvas);
+
+for(var i in tableData.dataGroups){
+	var sum = 0;
+	var points = tableData.dataGroups[i];
+	for(var j in points){
+		sum += points[j];
+	}
+	var fraction = sum/dataSum;
+	var startAngle = counter * Math.PI * 2 - Math.PI * 0.5;
+	var endAngle = (counter + fraction) * Math.PI * 2 - Math.PI * 0.5;
+
+	if(i == 2){
+		var currentPullOutDistance = 20;
+		var maxPullOutDistance = 25; 
+		var ratio = currentPullOutDistance/maxPullOutDistance;
+		var midAngle = (startAngle + endAngle) / 2;
+		var actualPullOutDistance = currentPullOutDistance * (Math.pow( 1 - ratio, .8 ) + 1);
+		var startx = center_x + Math.cos(midAngle) * actualPullOutDistance;
+		var starty = center_y + Math.sin(midAngle) * actualPullOutDistance;
+	
+		ctx.beginPath();
+		ctx.moveTo(startx, starty);		
+		ctx.arc(startx, starty, radius, startAngle,endAngle, false);
+		ctx.lineTo(startx, starty);
+		ctx.closePath();
+	}else{
+		ctx.beginPath();
+		ctx.moveTo(center_x, center_y);
+		ctx.arc(center_x, center_y, radius, startAngle,endAngle, false);
+		ctx.lineTo(center_x, center_y);
+		ctx.closePath();
+	}
+
+	var sliceGradientColor = "#222";
+	var sliceBorderStyle = "#fff";
+	var sliceBorderWidth = 4;  
+	var sliceGradient = ctx.createLinearGradient( 0, 0, w*.7, h*.7);
+	sliceGradient.addColorStop( 0, sliceGradientColor );
+	sliceGradient.addColorStop( 1, colors[i]);
+	ctx.fillStyle = sliceGradient;
+	ctx.fill();
+	ctx.lineWidth = sliceBorderWidth;
+	ctx.strokeStyle = sliceBorderStyle;
+	ctx.stroke();
+
+	var sliceMiddle = (counter + fraction/2);
+	var distance = radius * 1.2;
+	var labelx = Math.round(center_x + Math.sin(sliceMiddle * Math.PI * 2) * (distance));
+	var labely = Math.round(center_y - Math.cos(sliceMiddle * Math.PI * 2) * (distance));
+	var leftPlus = (labelx < center_x) ? '40' : '0' ;
+	var percentage = parseFloat((fraction*100).toFixed(2));
+	var labelval = percentage + "%";
+	var labeltext = $('<span class="label">' + labelval +'</span>')
+                .css('font-size', radius / 8)		
+	       .css('color', colors[i]);
+	var label = $('<li class="label-pos"></li>')
+                .appendTo(labels)
+                .css({left: labelx-leftPlus, top: labely})
+                .append(labeltext);	
+	counter+=fraction;	
+}
+
+$('<div class="chart-title">'+table.find('caption').html() + '</div>')
+.insertBefore(canvas);
+
+var legendList = $('<ul class="legend"></ul>')
+	.insertBefore(canvas);
+for(var i in tableData.legend){
+	$('<li>'+ tableData.legend[i] +'</li>')
+	.prepend('<span style="background: '+ colors[i] +'" />')
+	.appendTo(legendList);
+}
+
+$('table').hide();
+});	
+
+</script>
+
+
+</BODY>
+</HTML>

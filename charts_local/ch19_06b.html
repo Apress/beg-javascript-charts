@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+</head>
+<body>
+<ul>
+	<li>Apples</li>
+	<li>Pears</li>
+	<li>Bananas</li>
+</ul>
+<script type="text/javascript">
+    d3.select('ul').append('li').text("Citrus fruit");
+    d3.select('ul').append('ul').append('li').text("Oranges");
+    d3.select('ul').select('ul').append('li').text("Lemons");
+    d3.select('ul').select('ul').append('li').text("Grapefruit");
+</script>
+</body>
+</html>

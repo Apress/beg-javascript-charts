@@ -1,0 +1,43 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 11</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.donutRenderer.min.js"> </script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+var data = [ ['Dairy', 212],['Meat', 140], ['Grains', 276], 
+['Fish', 131],['Vegetables', 510], ['Fruit', 325] ];
+var data2 = [ ['Dairy', 185],['Meat', 166], ['Grains', 243], 
+	      ['Fish', 166],['Vegetables', 499], ['Fruit', 370]];
+
+
+var plot1 = jQuery.jqplot ('myChart', [data,data2], 
+{ 
+	seriesDefaults: {
+	// Make this a pie chart.
+		renderer:$.jqplot.DonutRenderer, 
+		rendererOptions: {
+			showDataLabels: true,
+			dataLabels: 'value',
+			sliceMargin: 3,
+			startAngle: -90
+		}
+	},
+	legend: {  show:true, 
+           	location: 'e' }
+
+});
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

@@ -1,0 +1,20 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+</HEAD>	
+<BODY>
+<script>
+$(document).ready(function(){ 
+    var data = [[[10,100], [80,130], [65,75], [40,130],
+	[60,80], [30,140], [70,120], [20,110], [95,100]]];
+    $.jqplot ('myChart', data);
+
+});
+</script>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

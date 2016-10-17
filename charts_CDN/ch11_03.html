@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 11</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.donutRenderer.min.js"> </script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+var data = [ ['Cat', 1],['Dog', 1], ['Mouse', 1], 
+['Snake', 1],['Turtle', 1], ['Jellyfish', 1], ['Cuttlefish', 1] ];
+var data2 = [ ['Mammals', 3],['Reptiles', 2], ['Mollusks', 2] ];    
+var data3 = [ ['Vertebrates', 5],['Invertebrates', 2] ];
+
+var options =   { 
+	seriesDefaults: {
+		renderer:$.jqplot.DonutRenderer, 
+		rendererOptions: {
+			showDataLabels: true,
+			dataLabels: 'label',
+			startAngle: -90,
+			innerDiameter: 0,
+			ringMargin: 2,
+			shadow: false
+		}
+	},
+	series: [
+	{
+	          seriesColors: ['#4bb2c5','#4baacc','#4b88aa','#bbb2c5','#bbaa99','#c5dd99','#dddd77']
+	},
+	{
+		seriesColors:  ['#4bbbbb','#ccb2c5','#c5ff99']
+	},
+	{
+		seriesColors:  ['#aa5555','#a3ffaa']
+	}]
+};
+
+$.jqplot ('myChart', [data,data2,data3], options);
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

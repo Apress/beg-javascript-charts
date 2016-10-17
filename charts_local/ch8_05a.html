@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+    <TITLE>Chapter 8</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+<style>
+    .jqplot-title {
+        font:italic bold 22px arial,sans-serif;
+    }
+</style>
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+    var data = [[100,110,140,130,80,75,120,130,100]];
+    $(document).ready(function(){
+        $.jqplot ('myChart', data,
+        { 
+            title: 'My first jqPlot chart'
+        });
+    });
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

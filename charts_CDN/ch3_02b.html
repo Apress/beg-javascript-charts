@@ -1,0 +1,180 @@
+<HTML>
+<HEAD>
+<TITLE>MyChart</TITLE>
+<style type="text/css">
+table.myTable caption {
+   font-size: 14px;
+   padding-bottom: 5px;
+   font-weight: bold;
+}
+table.myTable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse; 
+}
+table.myTable th {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background: rgb(225,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(225,255,255,1) 0%,
+       rgba(225,255,255,1) 7%, 
+       rgba(225,255,255,1) 12%, 
+       rgba(253,255,255,1) 12%, 
+       rgba(230,248,253,1) 30%, 
+       rgba(200,238,251,1) 54%, 
+       rgba(190,228,248,1) 75%, 
+       rgba(177,216,245,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(
+       linear, left top, left bottom, 
+       color-stop(0%,rgba(225,255,255,1)), 
+       color-stop(7%,rgba(225,255,255,1)), 
+       color-stop(12%,rgba(225,255,255,1)), 
+       color-stop(12%,rgba(253,255,255,1)), 
+       color-stop(30%,rgba(230,248,253,1)), 
+       color-stop(54%,rgba(200,238,251,1)), 
+       color-stop(75%,rgba(190,228,248,1)), 
+       color-stop(100%,rgba(177,216,245,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(
+       top, 
+       rgba(225,255,255,1) 0%,
+       rgba(225,255,255,1) 7%,
+       rgba(225,255,255,1) 12%,
+       rgba(253,255,255,1) 12%,
+       rgba(230,248,253,1) 30%,
+       rgba(200,238,251,1) 54%,
+       rgba(190,228,248,1) 75%,
+       rgba(177,216,245,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(
+       top, 
+       rgba(225,255,255,1) 0%,
+       rgba(225,255,255,1) 7%,
+       rgba(225,255,255,1) 12%,
+       rgba(253,255,255,1) 12%,
+       rgba(230,248,253,1) 30%,
+       rgba(200,238,251,1) 54%,
+       rgba(190,228,248,1) 75%,
+       rgba(177,216,245,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(
+       top, 
+       rgba(225,255,255,1) 0%,
+       rgba(225,255,255,1) 7%,
+       rgba(225,255,255,1) 12%,
+       rgba(253,255,255,1) 12%,
+       rgba(230,248,253,1) 30%,
+       rgba(200,238,251,1) 54%,
+       rgba(190,228,248,1) 75%,
+       rgba(177,216,245,1) 100%); /* IE10+ */
+    background: linear-gradient(
+       to bottom, 
+       rgba(225,255,255,1) 0%,
+       rgba(225,255,255,1) 7%,
+       rgba(225,255,255,1) 12%,
+       rgba(253,255,255,1) 12%,
+       rgba(230,248,253,1) 30%,
+       rgba(200,238,251,1) 54%,
+       rgba(190,228,248,1) 75%,
+       rgba(177,216,245,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( 
+       startColorstr='#e1ffff', endColorstr='#b1d8f5',GradientType=0 ); /* IE6-9 */}
+table.myTable td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #666666;
+    background: rgb(242,245,246); /* Old browsers */
+    background: -moz-linear-gradient(
+       top, 
+       rgba(242,245,246,1) 0%, 
+       rgba(227,234,237,1) 37%, 
+       rgba(200,215,220,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(
+       linear, left top, left bottom, 
+       color-stop(0%,rgba(242,245,246,1)), 
+       color-stop(37%,rgba(227,234,237,1)), 
+       color-stop(100%,rgba(200,215,220,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(
+       top, 
+       rgba(242,245,246,1) 0%,
+       rgba(227,234,237,1) 37%,
+       rgba(200,215,220,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(
+       top, rgba(242,245,246,1) 0%,
+       rgba(227,234,237,1) 37%,
+       rgba(200,215,220,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(
+       top, 
+       rgba(242,245,246,1) 0%,
+       rgba(227,234,237,1) 37%,
+       rgba(200,215,220,1) 100%); /* IE10+ */
+    background: linear-gradient(
+       to bottom, 
+       rgba(242,245,246,1) 0%,
+       rgba(227,234,237,1) 37%,
+       rgba(200,215,220,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( 
+       startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=0 ); /* IE6-9 */
+</style>
+</HEAD>
+<BODY>
+<table class="myTable">
+<caption>Balloons Lost in Space</caption>
+<thead>
+<tr>
+<td></td>
+<th>May 2013</th>
+<th>Jun 2013</th>
+<th>Jul 2013</th>
+<th>Aug 2013</th>
+<th>Sep 2013</th>
+<th>Oct 2013</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>USA</th>
+<td>12</td>
+<td>40</td>
+<td>75</td>
+<td>23</td>
+<td>42</td>
+<td>80</td>
+</tr>
+<tr>
+<th>Canada</th>
+<td>3</td>
+<td>22</td>
+<td>40</td>
+<td>27</td>
+<td>35</td>
+<td>21</td>
+</tr>
+<tr>
+<th>Australia</th>
+<td>60</td>
+<td>80</td>
+<td>16</td>
+<td>28</td>
+<td>33</td>
+<td>26</td>
+</tr>
+<tr>
+<th>Brazil</th>
+<td>46</td>
+<td>7</td>
+<td>14</td>
+<td>26</td>
+<td>36</td>
+<td>24</td>
+</tr>
+</tbody>
+<tfoot>
+<tr><td colspan="7">Data from Statistical Office of the Republic of Unhappy Children</td></tr>
+</tfoot>
+</table>
+</BODY>
+</HTML>

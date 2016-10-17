@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+<style>	
+body {
+  font: 16px sans-serif;
+}
+
+.arc path {
+     stroke: #fff;
+     stroke-width: 4;
+}
+
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 30, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var color = d3.scale.ordinal()
+    .range(["#ffc87c", "#ffeba8", "#f3b080", "#916800", "#dda66b"]);
+
+
+
+var radius = Math.min(w, h) / 2;
+
+var arc = d3.svg.arc()
+    .outerRadius(radius)
+    .innerRadius(0);
+
+var pie = d3.layout.pie()
+    //.sort(null)
+    .value(function(d) { return d.income; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" +(w/2+margin.left)+
+                   "," +(h/2+margin.top)+ ")");
+
+d3.csv("data_04.csv", function(error, data) {
+  
+  data.forEach(function(d) {
+    d.income = +d.income;
+  });
+
+var g = svg.selectAll(".arc")
+      .data(pie(data))
+      .enter().append("g")
+      .attr("class", "arc");
+
+  g.append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color(d.data.country); });
+
+  g.append("text")
+      .attr("transform", function(d) { 
+              return "translate(" + arc.centroid(d) + ")"; })
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.country; });
+
+var title = d3.select("svg").append("g")
+      .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")")
+      .attr("class","title")
+     
+  title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("My first pie chart");
+
+
+
+});
+
+
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+<style>
+.jqplot-title {
+    font-family: "Arial Black";
+    font-size: 24px;
+    color: lightblue;
+}
+
+.jqplot-xaxis-label {
+	font-size: 24px;
+}
+
+.jqplot-axis {
+	font-family: "Arial";
+    font-size: 16px;
+}
+
+.jqplot-xaxis {
+    color: green;
+}
+
+.jqplot-yaxis {
+    color: orange;
+	font-weight: bold;
+}
+</style>
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+    var data1 = [1, 2,  3, 2, 3, 4];
+    var data2 = [3, 4, 5, 6, 5, 7];
+    var data3 = [5, 6, 8, 9, 7, 9];
+    var data4 = [7, 8, 9, 11, 10, 11];
+    var options = {
+       title: 'Multiseries Line Chart',
+	   axesDefaults: {
+		  label: 'Axis Label'
+	   },
+	   grid: {
+          background: '#000000'
+       } 
+     };
+    $.jqplot('myChart',[data1, data2, data3, data4], options);
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>
+

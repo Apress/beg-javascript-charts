@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 17</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.json2.min.js"> </script>
+
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+  var ajaxDataRenderer = function(url, plot, options) {
+    var ret = null;
+    $.ajax({
+      async: false,
+      url: url,
+      dataType:"json",
+      success: function(data) {
+        ret = data;
+      }
+    });
+    return ret;
+  };
+ 
+  var jsonurl = "./jsondata2.txt";
+ 
+  var options = {
+    title: "AJAX JSON Data Renderer",
+    dataRenderer: ajaxDataRenderer,
+    dataRendererOptions: {
+      unusedOptionalUrl: jsonurl
+    }
+  };
+ 
+  $.jqplot('myChart', jsonurl,options);
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

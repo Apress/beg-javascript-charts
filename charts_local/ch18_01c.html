@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="../src/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../src/js/highcharts.js"></script>
+<script class="code" type="text/javascript">
+      var serie1 = [  [Date.UTC(2013, 3, 27, 9),1],
+		[Date.UTC(2013, 3, 27, 11),2],
+		[Date.UTC(2013, 3, 27, 13),3],
+		[Date.UTC(2013, 3, 27, 15),2],
+		[Date.UTC(2013, 3, 27, 17),3],
+		[Date.UTC(2013, 3, 27, 19),4]]
+				      
+      var serie2 = [  [Date.UTC(2013, 3, 27, 9),3],
+		[Date.UTC(2013, 3, 27, 11),4],
+		[Date.UTC(2013, 3, 27, 13),5],
+		[Date.UTC(2013, 3, 27, 15),6],
+		[Date.UTC(2013, 3, 27, 17),5],
+		[Date.UTC(2013, 3, 27, 19),7]];
+				   
+	  var serie3 = [  [Date.UTC(2013, 3, 27, 9),5],
+		[Date.UTC(2013, 3, 27, 11),6],
+		[Date.UTC(2013, 3, 27, 13),8],
+		[Date.UTC(2013, 3, 27, 15),9],
+		[Date.UTC(2013, 3, 27, 17),7],
+		[Date.UTC(2013, 3, 27, 19),9]];			   
+
+	  var serie4 = [  [Date.UTC(2013, 3, 27, 9),7],
+		[Date.UTC(2013, 3, 27, 11),8],
+		[Date.UTC(2013, 3, 27, 13),9],
+		[Date.UTC(2013, 3, 27, 15),11],
+		[Date.UTC(2013, 3, 27, 17),10],
+		[Date.UTC(2013, 3, 27, 19),11]];					   
+
+$(function () {
+        $('#myChart').highcharts({
+            chart: {
+                type: 'line',
+                marginTop: 60,
+                marginLeft: 60
+            },
+            title: {
+                text: 'Central Art Museum',
+                x: 10 
+            },
+            subtitle: {
+                text: '27th April,2013',
+                x: 10
+            },
+            xAxis: {
+                title: {
+                    text: 'Time',
+                    x: 100
+                },
+                type: 'datetime',
+                tickmarkPlacement: 'on'
+            },
+            yAxis: {
+                title: {
+                    text: 'Visitors'
+                }
+           },
+           series: [{
+                data: serie1,
+                name: 'Australia'
+            }, {
+                data: serie2,
+                name: 'Belgium' 
+            }, {
+                data: serie3,
+                name: 'Canada'
+            }, {
+                data: serie4,
+                name: 'Danmark'
+            }],
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',           
+                y: 60
+            }
+        });
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 600px; height: 400px;"></div>
+</body>
+</html>

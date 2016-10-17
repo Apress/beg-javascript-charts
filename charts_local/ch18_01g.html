@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="../src/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../src/js/highcharts.js"></script>
+<script class="code" type="text/javascript">
+      var serie1 = [1,2,3,{y:2,marker:{ symbol:'url(icon/info.png)'}},3,4 ];
+      var serie2 = [3,4,5,6,5,7];
+      var serie3 = [5,6,8,9,7,9];
+      var serie4 = [7,8,9,11,10,11];
+$(function () {
+        $('#myChart').highcharts({
+            colors: ["#4bb2c5", "#c5b47f", "#EAA228", "#579575"],
+            chart: {
+                type: 'spline',
+                marginTop: 60,
+                marginLeft: 60
+            },
+            title: {
+                text: 'Central Art Museum',
+                x: 10 
+            },
+            subtitle: {
+                text: '27th April,2013',
+                x: 10
+            },
+            xAxis: {
+                title: {
+                    text: 'Time',
+                    x: 100
+                },
+                type: 'datetime',
+                gridLineWidth: 1,
+                gridLineDashStyle: 'dot',
+                minPadding: 0.1,
+                maxPadding: 0.1,
+                tickInterval: 4 * 3600 * 1000,
+                plotBands: [{ // Close
+                    from: Date.UTC(2013, 3, 27, 8, 0, 0),
+                    to: Date.UTC(2013, 3, 27, 9, 0, 0),
+                    color: '#CACACA',
+                    label: {
+                        text: 'Close',
+                        style: {
+                            color: '#000000'
+                        }
+                    }
+                },{
+                    from: Date.UTC(2013, 3, 27, 19, 0, 0),
+                    to: Date.UTC(2013, 3, 27, 20, 0, 0),
+                    color: '#CACACA',
+                    label: {
+                        text: 'Close',
+                        style: {
+                            color: '#000000'
+                        }
+                    }                	
+                },{
+                    from: Date.UTC(2013, 3, 27, 12, 30, 0),
+                    to: Date.UTC(2013, 3, 27, 14, 0, 0),
+                    color: '#FFE7B6',
+                    label: {
+                        text: 'Lunch',
+                        style: {
+                            color: '#000000'
+                        }
+                    }  
+                }]
+            },
+            yAxis: {
+                title: {
+                    text: 'Visitors'
+                },
+                tickInterval: 4,
+                gridLineColor: '#618661',
+                minorTickInterval: 2,
+                minorGridLineColor: '#618661',
+                minorGridLineDashStyle: 'dashdot',
+                lineWidth: 1,
+                lineColor: '#CACACA',
+                tickWidth: 2,
+                tickLength: 4,
+                tickColor: '#CACACA'
+           },
+           plotOptions: {
+                spline: {
+                	lineWidth: 2,
+                    pointInterval: 2 * 3600 * 1000,// h * m* s hour
+                    pointStart: Date.UTC(2013, 3, 27, 9, 0, 0)
+                }
+            },
+           series: [{
+                data: serie1,
+                name: 'australia'
+            }, {
+                data: serie2,
+                name: 'belgium' 
+            }, {
+                data: serie3,
+                name: 'canada'
+            }, {
+                data: serie4,
+                name: 'denmark'
+            }],
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',           
+                y: 60,
+			    useHTML: true,
+			    labelFormatter: function () {return '<table><tr><td style="color: '+this.color +
+			    '"><img src="flags/'+ this.name +
+			    '.png" height="15" width="20"><b> ' + this.name;+'</b></td></tr></table>'},
+            },
+            tooltip: {
+	            useHTML: true,
+	            headerFormat: '<small>{point.key}</small><table>',
+	            pointFormat: '<tr><td style="color: {series.color}"><img src="flags/{series.name}.png" '+
+	            'height="22" width="32"> {series.name}:</td>' +
+	            '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+	            footerFormat: '</table>'
+            }
+        });
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 600px; height: 400px;"></div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>	
+body {
+  font: 16px sans-serif;
+}
+.arc path {
+ stroke: #000;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 30, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var color = d3.scale.ordinal()
+    .range(["#ffc87c", "#ffeba8", "#f3b080", "#916800", "#dda66b"]);
+
+var radius = Math.min(w, h) / 2;
+
+var arc1 = d3.svg.arc()
+    .outerRadius(0.4 * radius)
+    .innerRadius(0.2 * radius); 
+var arc2 = d3.svg.arc()
+    .outerRadius(0.7 * radius )
+    .innerRadius(0.5 * radius ); 
+var arc3 = d3.svg.arc()
+    .outerRadius(radius)
+    .innerRadius(0.8 * radius);
+var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.income; });
+var pie2 = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.expense; });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" +(w/2+margin.left)+
+                   "," +(h/2+margin.top)+ ")");
+
+d3.csv("data_06.csv", function(data) {
+  
+  data.forEach(function(d) {
+    d.income = +d.income;
+    d.expense = +d.expense;
+  });
+
+var g = svg.selectAll(".arc1")
+      .data(pie(data))
+      .enter().append("g")
+      .attr("class", "arc1");
+
+  g.append("path")
+      .attr("d", arc1)
+      .style("fill", function(d) { return color(d.data.country); });
+  
+  g.append("text")
+      .attr("transform", function(d) { 
+              return "translate(" + arc1.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.income; });
+
+var g = svg.selectAll(".arc2")
+      .data(pie2(data))
+      .enter().append("g")
+      .attr("class", "arc2");
+  
+  g.append("path")
+      .attr("d", arc2)
+      .style("fill", function(d) { return color(d.data.country); });
+  
+  g.append("text")
+      .attr("transform", function(d) { 
+               return "translate(" + arc2.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.expense; });
+
+g.append("text")
+      .attr("transform", function(d) { 
+               return "translate(" + arc3.centroid(d) + ")"; })
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.data.country; });      
+
+
+});
+
+
+var title = d3.select("svg").append("g")
+      .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")")
+      .attr("class","title")
+     
+title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("A donut chart");
+</script>
+</body>
+</html>
+
+

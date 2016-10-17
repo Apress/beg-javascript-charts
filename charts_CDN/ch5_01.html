@@ -1,0 +1,320 @@
+<HTML>
+<HEAD>
+<TITLE>MyChart</TITLE>
+<style type="text/css">
+table.myTable caption {
+   font-size: 14px;
+   padding-bottom: 5px;
+   font-weight: bold;
+}
+table.myTable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+    position: fixed;
+    top: 450px;
+    left: 20px;		
+}
+table.myTable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background:#b5cfd2 url('images/cell-blue.jpg');
+}
+table.myTable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background:#dcddc0 url('images/cell-grey.jpg');
+}
+canvas {
+    position: relative;
+}
+ul, .li { 
+    margin: 0; 
+    padding: 0;
+} 
+.labels-x, .labels-y { 
+    position: absolute; 
+    left: 37; 
+    top: 37; 
+    list-style: none; 
+}
+.labels-x li { 
+    position: absolute; 
+    bottom: 0; 
+    height: 100%;
+}
+.labels-x li span.label { 
+    position: absolute; 
+    color: #555; 
+    top: 100%; 
+    margin-top: 5px; 
+    left:-15;
+}
+.labels-x li span.line{  
+    position: absolute; 
+    border: 0 solid #ccc; 
+    border-left-width: 1px; 
+    height: 100%;
+}
+.labels-y li { 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%;  
+} 
+ .labels-y li span.label { 
+    position: absolute; 
+    color: #555;  
+    right: 100%; 
+    margin-right: 5px; 
+    width: 100px; 
+    text-align: right;  }
+.labels-y li span.line { 
+    position: absolute; 
+    border: 0 solid #ccc; 
+    border-top-width: 1px; 
+    width: 100%; 
+}
+.legend {  
+    list-style: none;
+    position: absolute; 
+    left:520px; 
+    top: 40px;
+    border: 1px solid #000;
+    padding: 10px;
+}
+.legend li span {
+    width: 12px;
+    height: 12px;
+    float: left;
+    margin: 3px;
+}
+.chart-title { 
+    font-size: 24; 
+    font-weight: bold; 
+    position: absolute; 
+    left: 150px; 
+    top: 10px; 
+    width: 100%;  
+} 
+</style>
+</HEAD>
+<BODY>
+<canvas id="myCanvas" width="500" height="400"> </canvas>
+<table class="myTable">
+<caption>Balloons lost in space</caption>
+<thead>
+<tr>
+<td></td>
+<th>May 2013</th>
+<th>Jun 2013</th>
+<th>Jul 2013</th>
+<th>Aug 2013</th>
+<th>Sep 2013</th>
+<th>Oct 2013</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>USA</th>
+<td>12</td>
+<td>40</td>
+<td>75</td>
+<td>23</td>
+<td>42</td>
+<td>80</td>
+</tr>
+<tr>
+<th>Canada</th>
+<td>3</td>
+<td>22</td>
+<td>40</td>
+<td>27</td>
+<td>35</td>
+<td>21</td>
+</tr>
+<tr>
+<th>Australia</th>
+<td>60</td>
+<td>80</td>
+<td>16</td>
+<td>28</td>
+<td>33</td>
+<td>26</td>
+</tr>
+<tr>
+<th>Brazil</th>
+<td>46</td>
+<td>7</td>
+<td>14</td>
+<td>26</td>
+<td>36</td>
+<td>24</td>
+</tr>
+</tbody>
+<tfoot>
+<tr><td colspan="7">Data from statistical office of the Republic of Unhappy Children</td></tr>
+</tfoot>
+</table>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>	
+<script>
+$(document).ready(function(){
+  
+  
+var canvas = $("#myCanvas");
+var ctx = canvas.get(0).getContext("2d");
+var colors = ['#be1e2d', '#666699', '#92d5ea', '#ee8310'];
+ctx.translate( 0, canvas.height() );
+var margin = {top: 30, right: 10, bottom: 10, left: 30},
+    w = canvas.width() - margin.left - margin.right,
+    h = canvas.height() - margin.top - margin.bottom;
+ctx.strokeRect(margin.left,-margin.bottom,w,-h);
+  
+   //add your code here
+   var tableData = {};
+   var table = $('table');
+   
+   tableData.xLabels = [];
+   table.find('thead th').each(function(){
+   		tableData.xLabels.push( $(this).html() );
+   });
+   tableData.legend = [];
+   table.find('tbody th').each(function(){
+   		tableData.legend.push( $(this).html() );
+   });	
+   var tmp = [];
+   table.find('tbody td').each(function(){
+		var thisVal = parseFloat( $(this).text() );
+		tmp.push(thisVal);
+   });
+   if(Math.min.apply(null, tmp) > 0)
+   		tableData.minVal = 0;
+   else
+        tableData.minVal = Math.min.apply(null, tmp);
+   tableData.maxVal = 1.1 * Math.max.apply(null, tmp);
+	
+	
+   tableData.yLabels = [];
+	var yDeltaPixels = 30;
+	var nTicks = Math.round(h / yDeltaPixels);
+	var yRange = tableData.maxVal - tableData.minVal;
+	var yDelta = Math.ceil(yRange / nTicks);
+	var yVal = tableData.minVal;
+	while( yVal < (tableData.maxVal - yDelta)){
+		tableData.yLabels.push(yVal);
+		yVal += yDelta;
+	}
+	tableData.yLabels.push(yVal);
+	tableData.yLabels.push(tableData.maxVal);
+
+   
+   	tableData.dataGroups = [];
+	table.find('tbody tr').each(function(i){
+		tableData.dataGroups[i] = [];
+		$(this).find('td').each(function(){
+			var tdVal = parseFloat( $(this).text() );
+			tableData.dataGroups[i].push( tdVal );
+		});
+	});
+
+//var xDelta = w / (tableData.xLabels.length -1 );
+var xDelta = w / (tableData.xLabels.length);
+var xlabelsUL = $('<ul class="labels-x"></ul>')
+	.width(w)
+	.height(h)
+	.insertBefore(canvas);
+$.each(tableData.xLabels, function(i){
+	var thisLi = $('<li><span class="label">'+this+'</span></li>')
+		.prepend('<span class="line" />')
+		.css('left', xDelta * i)
+		.width(0)
+		.appendTo(xlabelsUL);
+	var label = thisLi.find('span.label');
+	label
+ 	   .css('margin-left', '40px')
+	   .addClass('label');
+});
+
+var yScale = h / yRange;
+var liBottom = h / (tableData.yLabels.length-1);
+var ylabelsUL = $('<ul class="labels-y"></ul>')
+	.width(w)
+	.height(h)
+	.insertBefore(canvas);
+$.each(tableData.yLabels, function(i){  
+	var thisLi = $('<li><span>'+this+'</span></li>')
+		.prepend('<span class="line"  />')
+		.css('bottom',liBottom*i)
+		.prependTo(ylabelsUL);
+	var label = thisLi.find('span:not(.line)');
+	var topOffset = label.height()/-2;
+	if(i == 0){ topOffset = -label.height(); }
+	else if(i== tableData.yLabels.length-1){ topOffset = 0; }
+	label
+ 	   .css('margin-top', topOffset)
+	   .addClass('label');
+});
+/*
+ctx.lineWidth = 2;
+for(var i in tableData.dataGroups){
+	var points = tableData.dataGroups[i];		
+	ctx.moveTo(0,-points[i]);
+	ctx.strokeStyle = colors[i];
+	ctx.beginPath();
+	var xVal = margin.left;
+	for(var j in points){
+		var relY = (points[j]*h/tableData.maxVal) + 10;
+		ctx.lineTo(xVal,-relY);
+		xVal += xDelta;
+	}
+	ctx.stroke();
+	ctx.closePath();
+}
+*/
+var barGroupMargin = 4;
+for(var i in tableData.dataGroups){
+	ctx.beginPath();
+	var n = tableData.dataGroups.length;
+	var lineWidth = (xDelta-barGroupMargin*2)/n;
+	var strokeWidth = lineWidth - (barGroupMargin*2);	
+          ctx.lineWidth = strokeWidth;
+	var points = tableData.dataGroups[i];
+	var xVal = (xDelta - n*strokeWidth - (n-1)*(lineWidth - strokeWidth))/2;
+	for(var j in points){	
+		var relX = margin.left + (xVal-barGroupMargin)+(i*lineWidth)+lineWidth/2;
+		ctx.moveTo(relX,-margin.bottom);
+		var relY = margin.bottom + points[j]*h/tableData.maxVal;			
+		ctx.lineTo(relX,-relY);
+		xVal += xDelta;
+	}
+	ctx.strokeStyle = colors[i];
+	ctx.stroke();
+	ctx.closePath();
+}
+
+
+
+var legendList = $('<ul class="legend"></ul>')
+	.insertBefore(canvas);
+for(var i in tableData.legend){
+	$('<li>'+ tableData.legend[i] +'</li>')
+	.prepend('<span style="background: '+ colors[i] +'" />')
+	.appendTo(legendList);
+}
+
+$('<div class="chart-title">'+table.find('caption').html() + '</div>')
+.insertBefore(canvas);
+
+$('table').hide();
+});	
+</script>
+
+
+</BODY>
+</HTML>

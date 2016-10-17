@@ -1,0 +1,13 @@
+<HTML>
+<HEAD>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+</HEAD>	
+<BODY>
+<div> This is the first text</div>
+<div class="selected"> This is the second text</div>
+<div> This is the last text</div>
+<script>
+$('div').hide().filter('.selected').text('This is a new text').show();
+</script>		
+</BODY>
+</HTML>

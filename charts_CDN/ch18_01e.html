@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/3.0.5/highcharts.js"></script>
+<script class="code" type="text/javascript">
+      var serie1 = [1,2,3,2,3,4];
+      var serie2 = [3,4,5,6,5,7];
+      var serie3 = [5,6,8,9,7,9];
+      var serie4 = [7,8,9,11,10,11];
+$(function () {
+        $('#myChart').highcharts({
+            chart: {
+                type: 'spline',
+                marginTop: 60,
+                marginLeft: 60
+            },
+            title: {
+                text: 'Central Art Museum',
+                x: 10 
+            },
+            subtitle: {
+                text: '27th April,2013',
+                x: 10
+            },
+            xAxis: {
+                title: {
+                    text: 'Time',
+                    x: 100
+                },
+                type: 'datetime',
+                gridLineWidth: 1,
+                gridLineDashStyle: 'dot',
+                minPadding: 0.1,
+                maxPadding: 0.1,
+                tickInterval: 4 * 3600 * 1000
+            },
+            yAxis: {
+                title: {
+                    text: 'Visitors'
+                },
+                tickInterval: 4,
+                gridLineColor: '#618661',
+                minorTickInterval: 2,
+                minorGridLineColor: '#618661',
+                minorGridLineDashStyle: 'dashdot',
+                alternateGridColor: {
+                	linearGradient: {
+                		x1:0, y1:1,
+                		x2:1, y2:1
+                	},
+                	stops : [
+                		[0, "#F8F8EE"],
+                		[1, "#A2B9A6"] 
+                	],
+                },
+                lineWidth: 1,
+                lineColor: '#CACACA',
+                tickWidth: 2,
+                tickLength: 4,
+                tickColor: '#CACACA'
+           },
+           plotOptions: {
+                spline: {
+                    //lineWidth: 4,
+                    //marker: {
+                    //   enabled: false
+                    //},
+                    pointInterval: 2 * 3600 * 1000,// h * m* s hour
+                    pointStart: Date.UTC(2013, 4, 27, 9, 0, 0)
+                }
+            },
+           series: [{
+                data: serie1,
+                name: 'australia'
+            }, {
+                data: serie2,
+                name: 'belgium' 
+            }, {
+                data: serie3,
+                name: 'canada'
+            }, {
+                data: serie4,
+                name: 'denmark'
+            }],
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',           
+                y: 60
+            },
+            tooltip: {
+	            useHTML: true,
+	            headerFormat: '<small>{point.key}</small><table>',
+	            pointFormat: '<tr><td style="color: {series.color}"><img src="flags/{series.name}.png" '+
+	            'height="22" width="32"> {series.name}:</td>' +
+	            '<td style="text-align: right"><b>{point.y}</b></td></tr>',
+	            footerFormat: '</table>'
+            }
+        });
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 600px; height: 400px;"></div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script  type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+<script class="include" type="text/javascript" src="../src/plugins/jqplot.canvasOverlay.min.js"></script>
+<link rel="stylesheet" href="../src/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+<script src="../src/js/jquery-ui-1.10.3.custom.min.js"></script>   
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+	
+  var data = [100,110,140,130,80,75,120,130,100];
+  
+  var options = {
+       canvasOverlay: {
+          show: true,
+          objects: [
+              {verticalLine: {
+                 name: 'lowlimit',
+                 x: 5,
+                 lineWidth: 3,
+                 color: 'rgb(50, 200, 50)',
+                 shadow: true,
+                 lineCap: 'butt',
+                 yOffset: 0
+              }}
+          ]
+       }
+    };
+  myPlot = $.jqplot('myChart',[data], options);
+});
+
+function lineright(plot, name) {
+    var co = plot.plugins.canvasOverlay;
+    var line = co.get(name);
+    line.options.x += 1;
+    co.draw(plot);
+}
+
+function lineleft(plot, name) {
+    var co = plot.plugins.canvasOverlay;
+    var line = co.get(name);
+    line.options.x -= 1;
+    co.draw(plot);
+}
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+<div>
+<button onclick="lineright(myPlot, 'lowlimit')">Postpone Deadline</button>
+<button onclick="lineleft(myPlot, 'lowlimit')">Anticipate Deadline</button>
+</div>
+<script>
+$(function() {
+        $( 'button')
+            .button()
+            .click(function( event ) {
+                event.preventDefault();
+            });
+});	
+</script>
+</BODY>
+</HTML>
+

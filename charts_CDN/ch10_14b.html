@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.pointLabels.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+ var data = [['Germany',12],['Italy',8],['Spain',6],   
+             ['France',10],['UK',7]];		
+var options = {
+	  title: 'Foreign Customers',
+	  captureRightClick: true,
+    	  series:[{renderer:$.jqplot.BarRenderer}],
+    	  axes: {
+      		xaxis: {
+        		   renderer: $.jqplot.CategoryAxisRenderer
+      		}
+      	  }
+ };
+
+    $.jqplot ('myChart', [data], options);
+
+    nEvents = 0;    
+    $('#myChart').bind('jqplotDataHighlight', 
+        function (ev, seriesIndex, pointIndex, data) {
+	   nEvents = nEvents + 1;
+	   $('#info1').html(nEvents);
+        }
+    );
+    
+    $('#myChart').bind('jqplotDataUnhighlight', 
+        function (ev) {
+            $('#info1').html('Nothing');
+            nEvents = 0;
+        }
+    );  
+
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+<div><span>Events: </span><span id="info1">Nothing yet</span></div>
+</BODY>
+</HTML>

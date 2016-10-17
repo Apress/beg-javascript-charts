@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/3.0.5/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/3.0.5/highcharts-more.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/themes/gray.js"></script>
+<script>
+$(function () {
+
+   var data1 = [ [Date.UTC(2012,0,1),Date.UTC(2012,1,15)],
+    			[Date.UTC(2012,0,20),Date.UTC(2012,1,28)],
+    			[Date.UTC(2012,1,4),Date.UTC(2012,3,30)],
+    			[Date.UTC(2012,2,10),Date.UTC(2012,5,15)],
+    			[Date.UTC(2012,4,1),Date.UTC(2012,7,19)],
+    			[Date.UTC(2012,6,1),Date.UTC(2012,10,15)],
+    			[Date.UTC(2012,9,1),Date.UTC(2012,11,28)]
+    ];
+    var data2 = [5,10,20,5,28,23,9];
+   var data3 = [ [140,Date.UTC(2012,0,1)],
+    			[120,Date.UTC(2012,1,28)],
+    			[58,Date.UTC(2012,3,30)],
+    			[78,Date.UTC(2012,5,15)],
+    			[44,Date.UTC(2012,7,19)],
+    			[33,Date.UTC(2012,10,15)],
+    			[1,Date.UTC(2012,11,28)]
+    ];
+    var gradient = {x1:0, y1:0, x2:0, y2:1};
+ 
+    var options = {
+	    colors:  ['#65Af43','#FFE76D','#BB43F2','#A50f33','#15CACA','#612BF3','#FF8E04'],
+	    chart: {
+	        inverted: true,
+	    },    
+	    title: {
+	        text: 'Developing of the X Weapon'
+	    },    
+		subtitle: {
+	        text: 'Half Guns inc.'
+	    },	
+	    xAxis:[ {
+	        categories: ['Analysis', 'Designing', 'Casting', 'Develop','Test','Debugging','Sale'],
+	    },{
+	    	title: {
+	            text: 'Budget'
+	        },
+            labels: {
+				enabled: false,
+            },
+            opposite: true,
+            tickInterval: 20
+        }],  
+	    yAxis: {
+	        title: {
+	            text: 'Scheduling'
+	        },
+	        type: 'datetime',
+	        minPadding: 0,
+	        maxPadding: 0,
+	        gridLineWidth: 1,
+	        gridLineColor: '#bbbbbb',
+	        minorTickInterval: 14 * 24 * 3600000 //2 week
+	    },  
+	    plotOptions:{
+			columnrange:{
+				colorByPoint: true,
+				colors: [{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(101,175,67,1)'],[1,'rgba(101,175,67,0)']]
+				},{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(255,231,109,1)'],[1,'rgba(255,231,109,0)']]
+				},{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(187,67,242,1)'],[1,'rgba(187,67,242,0)']]
+				},{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(165,15,51,1)'],[1,'rgba(165,15,51,0)']]
+				},{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(21,202,202,1)'],[1,'rgba(21,202,202,0)']]
+				},{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(97,43,243,1)'],[1,'rgba(97,43,243,0)']]
+				},{				
+					linearGradient: gradient,
+					stops: [ [0,'rgba(255,142,4,1)'],[1,'rgba(255,142,4,0)']]
+				}],
+				
+			}
+	    },     
+	    legend: {
+	        enabled: false
+	    },
+	    tooltip: {
+	    	enabled: false
+	    },	
+	    series: [{
+	    	type: 'line',
+	    	data: data3,
+	    	xAxis:1,
+	    	color: ['#ddddaa'],
+	    	lineWidth: 4,
+	    	dashStyle: 'dash',
+	    	marker: {
+		    		fillColor: 'rgba(0,0,0,1)',
+		    		lineWidth: 4,
+		    		lineColor: '#ddddaa',
+		    		radius: 7
+		    }
+	   },{
+	    	type: 'columnrange',
+	        data: data1,
+	        borderWidth: 0,
+	        xAxis:0,    
+	    },{
+	    	type: 'pie',
+            name: 'Budget',
+            data: data2,
+            borderColor: '#888888',
+	        borderWidth: 1,
+            center: [370, 40],
+            size: 100,
+            showInLegend: false,
+            dataLabels: {
+	            enabled: true,
+	            color: '#bbbbbb',
+	            connectorColor: '#bbbbbb',
+	            formatter: function() {
+	                return '<b>'+ Math.round(this.percentage) +'%</b>';
+	            }
+	        },
+	        xAxis:1
+		}]
+	}
+
+	$('#myChart').highcharts(options);
+    
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 610px; height: 400px;"></div>
+</body>
+</html>

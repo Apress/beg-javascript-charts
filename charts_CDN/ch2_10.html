@@ -1,0 +1,30 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script> 
+<style>
+.ui-menu { width: 150px; }
+</style>
+</HEAD>	
+<BODY>
+<ul id="menu">
+    <li class="ui-state-disabled"><a href="#">Advanced</a></li>
+    <li><a href="#">Filter</a></li>
+    <li>
+        <a href="#">Zoom</a>
+        <ul>
+            <li><a href="#">10%</a></li>
+            <li><a href="#">25%</a></li>  
+            <li><a href="#">50%</a></li>
+            <li><a href="#">100%</a></li>
+        </ul>
+    </li>
+</ul>
+<script>
+$(function() {
+    $( "#menu" ).menu();
+});
+</script>	
+</BODY>
+</HTML> 

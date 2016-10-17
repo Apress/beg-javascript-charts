@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.pointLabels.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+  var data = [['Germany',12],['Italy',8],['Spain',6],['France',10],['UK',7]];
+  var tick = ['Germany','Italy','Spain','France','UK'];
+  var icon = ['germany.png','italy.png','spain.png','france.png','uk.png'];
+
+  var options = {
+  		title: 'Foreign Customers',
+		series:[{renderer:$.jqplot.BarRenderer}],
+		axes: {
+  			xaxis: {
+    			renderer: $.jqplot.CategoryAxisRenderer
+  			}
+  		}
+  };
+
+ var myPlot = $.jqplot ('myChart', [data], options);
+
+  $('#myChart').bind('jqplotDataHighlight', 
+    function (ev, seriesIndex, pointIndex, data) {    
+      var chart_left = $('#myChart').offset().left;
+      var chart_top = $('#myChart').offset().top;
+      var x = data[0]*95+20;
+      var y = myPlot.axes.yaxis.u2p(data[1]); 
+      var color = 'rgb(30%,50%,60%)';
+      $('#tooltip1').css({left:chart_left+x, top:chart_top+y});
+      $('#tooltip1').html('<span style="font-size:16px;font-weight:bold;color:' + 
+         color + ';">' + tick[data[0]-1] + 
+         '</span><br/><img src="flags/'+ icon[data[0]-1]+
+         '" width="30" height="20"><br/> n:' + data[1]);
+      $('#tooltip1').show();
+   });
+   
+  $('#myChart').bind('jqplotDataUnhighlight', 
+      function (ev, seriesIndex, pointIndex, data) {
+          $('#tooltip1').empty();
+          $('#tooltip1').hide();
+  });
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+<div id="tooltip1" style="position:absolute; height:0px; width:0px;"></div>
+</BODY>
+</HTML>

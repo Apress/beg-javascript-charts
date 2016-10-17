@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>	
+body {
+  font: 16px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 40, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var groupMarker = {
+  Exp1: "cross",
+  Exp2: "diamond",
+  Exp3: "triangle-down"
+}
+	
+var color = d3.scale.category10();
+
+var x = d3.scale.linear()
+    .range([0, w]);
+
+var y = d3.scale.linear()
+    .range([h, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")");
+
+d3.tsv("data_09.tsv", function(error, data) {
+  data.forEach(function(d) {
+    d.time = +d.time;
+    d.intensity = +d.intensity;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.time; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.intensity; })).nice();
+
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis)
+      
+  svg.append("text")
+      .attr("class", "label")
+      .attr("x", w)
+      .attr("y", h + margin.bottom - 5)
+      .style("text-anchor", "end")
+      .text("Time [s]");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+  
+  svg.append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Intensity");
+
+
+
+svg.selectAll("path")
+    .data(data)
+    .enter().append("path")
+    .attr("transform", function(d) { return "translate(" + x(d.time) + "," + y(d.intensity) + ")"; })
+    .attr("d", d3.svg.symbol().type(
+    	function(d){ return groupMarker[d.group];}
+    ))
+    .style("fill", "white")
+    .style("stroke", function(d) { return color(d.group); })
+    .style("stroke-width", "1.5px");
+
+var legend = svg.selectAll(".legend")
+      .data(color.domain())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { 
+             return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", w - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", w - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+
+});
+
+var title = d3.select("svg").append("g")
+      .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")")
+      .attr("class","title")
+     
+  title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("My Scatterplot");
+</script>
+</body>
+</html>
+
+

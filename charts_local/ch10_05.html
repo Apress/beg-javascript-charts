@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.pointLabels.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){	
+
+ var data = [12,8,6,10,7];	// Electronics customers
+ var data2 = [14,12,4,14,11];	// Software customers
+ var data3 = [18,10,5,9,9];	// Mechanics customers
+ var ticks = ['Germany','Italy','Spain','France','UK'];
+
+ var options = {
+        title: 'Foreign Customers',
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+        },
+        series:[
+            {label:'Electronics'},
+            {label:'Software'},
+            {label:'Mechanics'}
+    	],
+        axes: {
+  	   xaxis: {
+    		renderer: $.jqplot.CategoryAxisRenderer,
+    		ticks: ticks
+  	   }
+        },
+        legend: {
+        	   show: true,
+        	   placement: 'outsideGrid',
+        	   location: 'e'
+       } 	
+  };
+
+  $.jqplot ('myChart', [data,data2,data3],options);
+});
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

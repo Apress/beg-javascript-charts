@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+<style>	
+body {
+  font: 16px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+line.open, line.close, line.ext {
+    stroke: blue;
+    stroke-width: 2;
+    shape-rendering: crispEdges;    
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 30, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%m/%d/%Y").parse;
+
+var x = d3.time.scale()
+    .range([0, w]);
+
+var y = d3.scale.linear()
+    .range([h, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(d3.time.format("%d-%b"))
+    .ticks(5);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")");	
+	
+d3.csv("data_08.csv", function(error, data) {
+
+  var maxVal = -1000;
+  var minVal = 1000;
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+    d.open = +d.open;
+    d.close = +d.close;
+    d.max = +d.max;
+    d.min = +d.min;
+    if (d.max > maxVal) 
+    	maxVal = d.max;
+    if (d.min < minVal)
+    	minVal = d.min;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([minVal,maxVal]);
+
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis)
+
+svg.append("text")
+      .attr("class", "label")
+      .attr("x", w)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+  
+  svg.append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Dollar [$]")
+
+svg.selectAll("line.ext")
+	  .data(data)
+	  .enter().append("svg:line")
+	  .attr("class", "ext")
+	  .attr("x1", function(d) { return x(d.date)})
+	  .attr("x2", function(d) { return x(d.date)})		    
+	  .attr("y1", function(d) { return y(d.min);})
+	  .attr("y2", function(d) { return y(d.max);});
+      
+  svg.selectAll("line.close")
+	  .data(data)
+	  .enter().append("svg:line")
+	  .attr("class", "close")
+	  .attr("x1", function(d) { return x(d.date)+5})
+	  .attr("x2", function(d) { return x(d.date)-1})		    
+	  .attr("y1", function(d) { return y(d.close);})
+	  .attr("y2", function(d) { return y(d.close); });
+	  
+  svg.selectAll("line.open")
+	  .data(data)
+	  .enter().append("svg:line")
+	  .attr("class", "open")
+	  .attr("x1", function(d) { return x(d.date)+1})
+	  .attr("x2", function(d) { return x(d.date)-5})		    
+	  .attr("y1", function(d) { return y(d.open);})
+	  .attr("y2", function(d) { return y(d.open); });
+
+});
+
+var title = d3.select("svg").append("g")
+      .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")")
+      .attr("class","title")
+     
+    title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("My candlestick chart");
+</script>
+</body>
+</html>
+
+

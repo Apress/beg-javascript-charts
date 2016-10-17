@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+<style type="text/css">
+    .chart-container {
+        border: 1px solid darkblue;
+        padding: 30px 0px 30px 30px;
+        width: 900px;
+        height: 400px;
+    }
+    
+    #chart1 {
+        width: 96%;
+        height: 96%;
+    }  
+</style>
+
+
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+  var plot1 = $.jqplot ('chart1', [[100,110,140,130,80,75,120,130,100]]);
+  
+  $('div.chart-container').resizable({delay:20});
+  $('div.chart-container').bind('resize', function(event, ui) {
+    plot1.replot();
+  });
+});
+
+</script>
+</HEAD>	
+<BODY>
+<div class="chart-container">    
+      <div id="chart1"></div>
+</div>
+</BODY>
+</HTML>

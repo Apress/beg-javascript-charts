@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.barRenderer.min.js"></script>
+
+
+<style type="text/css">
+    .ui-tabs {
+      width: 690px;
+      margin: 2em auto;
+    }
+    .ui-tabs-nav{
+      font-size: 12px;
+    }
+    .ui-tabs-panel{
+      font-size: 14px;
+    }
+    .jqplot-target {
+      font-size: 18px;
+    } 
+    ol.description {
+      list-style-position: inside;
+      font-size:15px;
+      margin:1.5em auto;
+      padding:0 15px;
+      width:600px;
+    }
+</style>
+
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+
+  var bar1 = [['Germany',12],['Italy',8],['Spain',6],['France',10],['UK',7]];	
+  var data1 = [1,2,3,2,3,4];
+  var data2 = [3,4,5,6,5,7];
+  var data3 = [5,6,8,9,7,9];
+  var data4 = [7,8,9,11,10,11];
+  var pie1 = [ 
+    ['Dairy', 212],['Meat', 140], ['Grains', 276], 
+    ['Fish', 131],['Vegetables', 510], ['Fruit', 325]
+  ];
+
+  var plot1 = $.jqplot ('chart1', [bar1],{
+  	title: 'Foreigner customers',
+	series:[{renderer:$.jqplot.BarRenderer}],
+	axesDefaults: {
+		tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+		tickOptions: {
+  			angle: -30,
+  			fontSize: '10pt'
+		}
+	},
+	axes: {
+		xaxis: {
+			renderer: $.jqplot.CategoryAxisRenderer
+		}
+	}
+  });
+  
+  var plot2 = $.jqplot ('chart2', [data1,data2,data3,data4],{});
+  
+  var plot3 = $.jqplot ('chart3', [pie1],{
+  	 seriesDefaults: {
+    	renderer: jQuery.jqplot.PieRenderer, 
+		rendererOptions: {
+			showDataLabels: true,
+			dataLabels: 'value',
+			fill: false,
+		    sliceMargin: 6, 
+		    lineWidth: 5
+		}
+  	}
+  });
+
+  $("#tabs").tabs();
+
+});
+
+</script>
+</HEAD>	
+<BODY>
+<div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Tab 1</a></li>
+      <li><a href="#tabs-2">Tab 2</a></li>
+      <li><a href="#tabs-3">Tab 3</a></li>
+    </ul>
+    <div id="tabs-1">
+      <p>This is the bar chart</p>
+      <div id="chart1" style="height:300px; width:650px;"></div>   
+    </div>
+    <div id="tabs-2">
+      <p>This is the line chart</p>
+     <div id="chart2" style="height:300px; width:650px;"></div>
+   </div>    
+    <div id="tabs-3">
+      <p>This is the pie chart</p>
+     <div id="chart3" style="height:300px; width:650px;"></div>
+    </div>
+</div>
+</BODY>
+</HTML>

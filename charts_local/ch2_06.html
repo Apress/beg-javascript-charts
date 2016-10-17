@@ -1,0 +1,47 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="../src/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+<script src="../src/js/jquery-1.9.1.js"></script>
+<script src="../src/js/jquery-ui-1.10.3.custom.min.js"></script> 
+<style type="text/css">
+    .ui-tabs {
+      width: 690px;
+      margin: 2em auto;
+    }
+    .ui-tabs-header {
+      font-size: 15px;
+      font-weight: bold;
+    }
+    .ui-tabs-panel {
+      font-size: 12px;
+    }
+</style>       
+</HEAD>	
+<BODY>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">First header</a></li>
+    <li><a href="#tabs-2">Second header</a></li>
+    <li><a href="#tabs-3">Third header</a></li>
+    <li><a href="#tabs-4">Fourth header</a></li>
+  </ul>
+  <div id="tabs-1">
+  	<p>First tab panel</p>
+  </div>
+  <div id="tabs-2">
+  	<p>Second tab panel</p>  
+  </div>
+   <div id="tabs-3">
+  	<p>Third tab panel</p>  
+  </div>
+  <div id="tabs-4">
+  	<p>Fourth tab panel</p>  
+  </div>
+</div>
+<script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+</script>	
+</BODY>
+</HTML> 

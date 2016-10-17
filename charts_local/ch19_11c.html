@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<script src="../src/d3.v3.js"></script>
+</head>
+<body>
+<div id="square"></div>
+<script type="text/javascript">
+    var svg = d3.select('#square')
+        .append('svg')
+        .attr('width', 200)
+        .attr('height', 200);    
+
+    var g = svg.append("svg:g")
+            .attr("transform","scale(2)");
+
+	
+    g.append('rect')
+        .style('stroke', 'black')
+        .style('fill', 'red')
+        .attr('x', 50)
+        .attr('y', 50)
+        .attr('width', 50)
+        .attr('height', 50);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="../src/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="../src/js/highcharts.js"></script>
+<script type="text/javascript" src="../src/js/highcharts-more.js"></script>
+<script type="text/javascript" src="../src/js/themes/gray.js"></script>
+<script>
+$(function () {
+
+   var data1 = [ [Date.UTC(2012,0,1),Date.UTC(2012,1,15)],
+    			[Date.UTC(2012,0,20),Date.UTC(2012,1,28)],
+    			[Date.UTC(2012,1,4),Date.UTC(2012,3,30)],
+    			[Date.UTC(2012,2,10),Date.UTC(2012,5,15)],
+    			[Date.UTC(2012,4,1),Date.UTC(2012,7,19)],
+    			[Date.UTC(2012,6,1),Date.UTC(2012,10,15)],
+    			[Date.UTC(2012,9,1),Date.UTC(2012,11,28)]
+    ];
+ 
+
+    var options = {
+	    chart: {
+	        type: 'columnrange',
+	        inverted: true,
+	    },    
+	    title: {
+	        text: 'Developing of the X Weapon'
+	    },    
+		subtitle: {
+	        text: 'Half Guns inc.'
+	    },	
+	    xAxis: {
+              categories: ['Analysis', 'Designing', 'Developing', 
+                     'Deploying','Testing','Debugging','Sale']
+	    },    
+	    yAxis: {
+	        title: {
+	            text: 'Scheduling'
+	        },
+	        type: 'datetime',
+	        minPadding: 0,
+	        maxPadding: 0,
+	        gridLineWidth: 1,
+	        gridLineColor: '#bbbbbb',
+	        minorTickInterval: 14 * 24 * 3600000 //2 week
+	    },  
+	    plotOptions:{
+			columnrange:{
+				colorByPoint: true,
+				colors:  ['#65Af43','#FFE76D','#BB43F2','#A50f33','#15CACA','#612BF3','#FF8E04']
+			}
+	    },     
+	    legend: {
+	        enabled: false
+	    },
+	    tooltip: {
+	    	enabled: false
+	    },	
+	    series: [{
+	        data: data1,
+	        borderColor: 'black',
+	        borderWidth: 2
+	    }]
+	}
+
+	$('#myChart').highcharts(options);
+    
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 610px; height: 400px;"></div>
+</body>
+</html>

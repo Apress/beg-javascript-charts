@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>	
+body {
+  font: 16px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 40, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 400 - margin.top - margin.bottom;
+
+var color = d3.scale.category10();
+
+var x = d3.scale.linear()
+    .range([0, w]);
+
+var y = d3.scale.linear()
+    .range([h, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")");
+
+d3.tsv("data_09.tsv", function(error, data) {
+  
+    sumx = [0,0,0];
+    sumy = [0,0,0];
+    sumxy = [0,0,0];
+    sumx2 = [0,0,0];
+    n = [0,0,0];
+    a = [0,0,0];
+    b = [0,0,0];  
+    y1 = [0,0,0];
+    y2 = [0,0,0];
+    x1 = [9999,9999,9999];
+    x2 = [0,0,0];
+    colors = ["","",""];
+
+    data.forEach(function(d) {
+       d.time = +d.time  ;
+       d.intensity = +d.intensity;
+       for(var i = 0; i < 3; i=i+1)
+       {
+          if(d.group == "Exp"+(i+1)){
+             colors [i] = color(d.group);
+             sumx[i] = sumx[i] + d.time;
+             sumy[i] = sumy[i] + d.intensity;
+             sumxy[i] = sumxy[i] + (d.time * d.intensity  );
+             sumx2[i] = sumx2[i] + (d.time * d.time);
+             n[i] = n[i] +1;
+             if(d.time < x1[i])
+               x1[i] = d.time;
+             if(d.time > x2[i])
+               x2[i] = d.time;
+           }
+       }
+    });
+
+
+  x.domain(d3.extent(data, function(d) { return d.time; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.intensity; })).nice();
+
+  for(var i = 0; i < 3; i = i + 1){
+       b[i] = (sumxy[i] - sumx[i] * sumy[i] / n[i]) / 
+           (sumx2[i] - sumx[i] * sumx[i] / n[i]);
+       a[i] = sumy[i] / n[i] - b[i] * sumx[i] / n[i];
+       y1[i] = b[i] * x1[i] + a[i];
+       y2[i] = b[i] * x2[i] + a[i];
+       svg.append("svg:line")
+          .attr("class","trendline")
+          .attr("x1", x(x1[i]))
+          .attr("y1", y(y1[i]))
+          .attr("x2", x(x2[i]))
+          .attr("y2", y(y2[i]))
+          .style("stroke", colors [i])
+          .style("stroke-width", 4); 
+    }
+ 
+  
+  
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis)
+      
+  svg.append("text")
+      .attr("class", "label")
+      .attr("x", w)
+      .attr("y", h + margin.bottom - 5)
+      .style("text-anchor", "end")
+      .text("Time [s]");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+  
+  svg.append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Intensity");
+
+svg.selectAll(".dot")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(d.time); })
+      .attr("cy", function(d) { return y(d.intensity); })
+      .style("fill", function(d) { return color(d.group); });
+
+var legend = svg.selectAll(".legend")
+      .data(color.domain())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { 
+             return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", w - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", w - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+
+});
+
+var title = d3.select("svg").append("g")
+      .attr("transform", "translate(" +margin.left+ "," +margin.top+ ")")
+      .attr("class","title")
+     
+  title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("My Scatterplot");
+</script>
+</body>
+</html>
+
+

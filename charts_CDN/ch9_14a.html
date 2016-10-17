@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/plugins/jqplot.dateAxisRenderer.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){ 
+
+
+var line1=[['14-Oct-12', 1300.41], ['15-Oct-12', 1310.50],
+['16-Oct-12', 1322.88], ['17-Oct-12', 1312.41],['18-Oct-12', 1308.16],
+['19-Oct-12', 1310.71], ['20-Oct-12', 1305.01],['21-Oct-12', 1300.85],
+['22-Oct-12', 1290.67]];
+
+  var options = {
+      title:'Data Point Highlighting',
+      axes:{
+        xaxis:{
+          renderer:$.jqplot.DateAxisRenderer,
+          tickOptions:{
+            formatString:'%b&nbsp;%#d'
+          } 
+        },
+        yaxis:{
+          tickOptions:{
+            formatString:'$%d'
+            }
+        }
+      },
+      highlighter: {
+        show: true,
+        sizeAdjust: 7.5
+      },
+      cursor: {
+        show: false
+      }
+  };
+
+   $.jqplot('myChart', [line1], options);
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>
+

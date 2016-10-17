@@ -1,0 +1,82 @@
+<HTML>
+<HEAD>
+	<TITLE>Chapter 9</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+<style>
+.chart-container {
+    background : #000000;
+    padding: 30px 0px 80px 30px;
+    width: 560px;
+    height: 330px;
+}
+
+.jqplot-title {
+    font-family: "Arial Black";
+    font-size: 24px;
+    color: lightblue;
+}
+
+.jqplot-xaxis-label {
+	font-size: 24px;
+}
+
+.jqplot-axis {
+	font-family: "Arial";
+    font-size: 16px;
+}
+
+.jqplot-xaxis {
+    color: green;
+}
+
+.jqplot-yaxis {
+    color: orange;
+	font-weight: bold;
+}
+
+</style>
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+    var data1 = [1, 2, 3, 2, 3, 4];
+    var data2 = [3, 4, 5, 6, 5, 7];
+    var data3 = [5, 6, 8, 9, 7, 9];
+    var data4 = [7, 8, 9, 11, 10, 11];
+    var options = {
+       title: 'Multiseries Line Chart',
+	   axesDefaults: {
+		  label: 'Axis Label'
+	   },
+	   grid: {
+	      drawBorder: false,
+		  shadow: false,
+          background: '#000000',
+          gridLineColor: '#ffffff',
+          gridLineWidth: 2
+		},
+		axes: {
+		   xaxis: { 
+			  numberTicks: 5,
+			  min: 0,
+			  max: 8
+		   },
+		   yaxis: { 
+			  numberTicks: 3,
+			  min: 0,
+			  max: 12
+		   }
+		}
+
+     };
+    $.jqplot('myChart',[data1, data2, data3, data4], options);
+});
+</script>
+</HEAD>	
+<BODY>
+<div class="chart-container">
+    <div id="myChart" style="height:400px; width:500px;"></div>
+</div>
+</BODY>
+</HTML>

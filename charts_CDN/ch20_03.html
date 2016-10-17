@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>	
+path {
+    stroke: steelblue;
+    stroke-width: 3;
+    fill: none;
+}
+line {
+    stroke: black;
+}
+.xGrids {
+	stroke: lightgray;
+}
+.yGrids {
+	stroke: lightgray;
+}
+text {
+    font-family: Verdana;
+    font-size: 9pt;
+}
+</style>
+</head>
+<body>
+<script>
+
+w = 400;
+h = 300;
+margin_x = 32;
+margin_y = 20;
+
+var data = [ {x:0,y:100},{x:10,y:110},{x:20,y:140},
+	    {x:30,y:130},{x:40,y:80},{x:50,y:75},
+	    {x:60,y:120},{x:70,y:130},{x:80,y:100}]; 
+
+var ax = [];
+var ay = [];
+data.forEach(function(d,i){
+     ax[i] = d.x;
+     ay[i] = d.y;
+})
+var xMax = d3.max(ax);
+var yMax = d3.max(ay);
+var xLowLim = 0;
+var xUpLim = d3.max(ax);
+var yUpLim = 1.2 * d3.max(ay);
+var yLowLim = 0.8 * d3.min(ay);
+
+
+var line = d3.svg.line()
+    .x(function(d) {  return x(d.x); })
+    .y(function(d) { return -y(d.y); })
+
+y = d3.scale.linear().domain([yLowLim, yUpLim]).range([0 + margin_y, h - margin_y]);
+x = d3.scale.linear().domain([xLowLim, xUpLim]).range([0 + margin_x, w - margin_x]);
+
+var svg = d3.select("body")
+    .append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+ 
+var g = svg.append("svg:g")
+    .attr("transform", "translate(0," + h + ")");
+
+
+//draw the xLabels   
+g.selectAll(".xLabel")
+    .data(x.ticks(5))
+    .enter().append("svg:text")
+    .attr("class", "xLabel")
+    .text(String)
+    .attr("x", function(d) { return x(d) })
+    .attr("y", 0)
+    .attr("text-anchor", "middle");
+ 
+// draw the yLabels 
+g.selectAll(".yLabel")
+    .data(y.ticks(5))
+    .enter().append("svg:text")
+    .attr("class", "yLabel")
+    .text(String)
+    .attr("x", 25)
+    .attr("y", function(d) { return -y(d) })
+    .attr("text-anchor", "end");
+
+//draw the x ticks    
+g.selectAll(".xTicks")
+    .data(x.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "xTicks")
+    .attr("x1", function(d) { return x(d); })
+    .attr("y1", -y(yLowLim))
+    .attr("x2", function(d) { return x(d); })
+    .attr("y2", -y(yLowLim)-5)
+     
+// draw the y ticks 
+g.selectAll(".yTicks")
+    .data(y.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "yTicks")
+    .attr("y1", function(d) { return -y(d); })
+    .attr("x1", x(xLowLim))
+    .attr("y2", function(d) { return -y(d); })
+    .attr("x2", x(xLowLim)+5)
+
+
+//draw the x grid   
+g.selectAll(".xGrids")
+    .data(x.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "xGrids")
+    .attr("x1", function(d) { return x(d); })
+    .attr("y1", -y(yLowLim))
+    .attr("x2", function(d) { return x(d); })
+    .attr("y2", -y(yUpLim))
+     
+// draw the y grid 
+g.selectAll(".yGrids")
+    .data(y.ticks(5))
+    .enter().append("svg:line")
+    .attr("class", "yGrids")
+    .attr("y1", function(d) { return -y(d); })
+    .attr("x1", x(xUpLim)+20)
+    .attr("y2", function(d) { return -y(d); })
+    .attr("x2", x(xLowLim))
+
+// draw the x axis
+g.append("svg:line")
+    .attr("x1", x(xLowLim))
+    .attr("y1", -y(yLowLim))
+    .attr("x2", 1.2*x(xUpLim))
+    .attr("y2", -y(yLowLim))
+ 
+// draw the y axis 
+g.append("svg:line")
+    .attr("x1", x(xLowLim))
+    .attr("y1", -y(yLowLim))
+    .attr("x2", x(xLowLim))
+    .attr("y2", -1.2*y(yUpLim))
+
+
+// draw the line of data points
+g.append("svg:path").attr("d", line(data));
+
+</script>
+</body>
+</html>

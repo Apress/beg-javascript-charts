@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+	<TITLE>Series selections with controls</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+<style>
+li
+{
+    font-family: "Verdana";
+    font-size: 16;
+    font-weight: bold;
+    text-shadow: 1px 2px 2px #555555;
+    margin: 3px;
+	list-style: none;
+}
+</style>
+<script>
+$(document).ready(function(){
+
+   var dataSet = {
+       data1: [[1,1],[2,2],[3,3],[4,2],[5,3],[6,4]],
+       data2: [[1,3],[2,4],[3,5],[4,6],[5,5],[6,7]],
+       data3: [[1,5],[2,6],[3,8],[4,9],[5,7],[6,9]],
+       data4: [[1,7],[2,8],[3,9],[4,11],[5,10],[6,11]]
+   };
+
+     var options = {
+        seriesDefaults: {
+            showMarker: false
+        },
+		title: 'Series Selection',
+        axes: {
+            xaxis: {},
+            yaxis: {
+		min: 0,
+		max: 12
+            }
+        }
+  };
+
+var plot1 = $.jqplot ('myChart', [dataSet.data1,dataSet.data2,dataSet.data3,dataSet.data4], options);
+
+      
+  $("input[type=checkbox][name=data1]").change(function(){
+        if(this.checked){
+	        plot1.series[0].data = dataSet.data1;
+	        plot1.replot();
+	    }else{
+	    	plot1.series[0].data = [];
+	        plot1.replot();
+	    }
+  });
+  $("input[type=checkbox][name=data2]").change(function(){
+        if(this.checked){
+	        plot1.series[1].data = dataSet.data2;
+	        plot1.replot();
+	    }else{
+	    	plot1.series[1].data = [];
+	        plot1.replot();
+	    }
+  });
+  $("input[type=checkbox][name=data3]").change(function(){
+        if(this.checked){
+	        plot1.series[2].data = dataSet.data3;
+	        plot1.replot();
+	    }else{
+	    	plot1.series[2].data = [];
+	        plot1.replot();
+	    }
+  });
+  $("input[type=checkbox][name=data4]").change(function(){
+        if(this.checked){
+	        plot1.series[3].data = dataSet.data4;
+	        plot1.replot();
+	    }else{
+	    	plot1.series[3].data = [];
+	        plot1.replot();
+	    }
+  });    
+
+  $("input[type=button][name=checkall]").click(function(){
+	if(this.value == "Check All"){
+		plot1.series[0].data = dataSet.data1;
+        plot1.series[1].data = dataSet.data2;
+        plot1.series[2].data = dataSet.data3;
+        plot1.series[3].data = dataSet.data4;
+ 	    $("input[type=checkbox][name=data1]").prop("checked", true);
+	    $("input[type=checkbox][name=data2]").prop("checked", true);
+	    $("input[type=checkbox][name=data3]").prop("checked", true);
+	    $("input[type=checkbox][name=data4]").prop("checked", true);
+        this.value = "Unckeck All";
+        plot1.replot();
+    }else{
+    	plot1.series[0].data = [];
+		plot1.series[1].data = [];
+		plot1.series[2].data = [];
+		plot1.series[3].data = [];
+        $("input[type=checkbox][name=data1]").prop("checked", false);
+	    $("input[type=checkbox][name=data2]").prop("checked", false);
+	    $("input[type=checkbox][name=data3]").prop("checked", false);
+	    $("input[type=checkbox][name=data4]").prop("checked", false);	    
+	    this.value = "Check All";
+	    plot1.replot();
+    }
+  });
+
+
+});
+
+
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+<table>
+<tr>
+   <td>
+      <div>
+        <ul>
+          <li><input name="data1" type="checkbox" checked />First series</li>
+          <li><input name="data2" type="checkbox" checked />Second series</li>
+          <li><input name="data3" type="checkbox" checked />Third series</li>
+          <li><input name="data4" type="checkbox" checked />Fourth series</li>
+          <li><input type="button" name="checkall" value="Uncheck All"></li>
+        </ul>
+      </div>
+    </td>
+</tr>
+</table>
+</BODY>
+</HTML>

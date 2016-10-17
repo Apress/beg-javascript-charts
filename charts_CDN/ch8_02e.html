@@ -1,0 +1,23 @@
+<HTML>
+<HEAD>
+	<TITLE>Chart 01</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="http://cdn.jsdelivr.net/excanvas/r3/excanvas.js"></script><![endif]-->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+<style>
+    .jqplot-title {
+        font:italic bold 22px arial,sans-serif;
+    }
+</style>
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+	var options = { title: 'My first jqPlot chart' };
+	$.jqplot ('myChart', [[100,110,140,130,80,75,120,130,100]],options);
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:400px; width:500px;"></div>
+</BODY>
+</HTML>

@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+	<TITLE>Real-time chart</TITLE>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+<script class="code" type="text/javascript">
+$(document).ready(function(){	
+data = [50,50];	
+var options = {
+    axes: {
+	xaxis: {min:1, max:21,numberTicks: 5},
+  	yaxis: {min:0, max: 100,numberTicks: 6,
+  	        tickOptions:{formatString:'%d%'} 
+	       }
+    },
+    seriesDefaults: {
+  	showMarker: false,
+  	rendererOptions: { smooth: true}
+    }
+};
+var plot1 = $.jqplot ('myChart', [data],options);
+
+$('button').click( function(){  
+    doUpdate();
+    $(this).hide();
+});
+
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function doUpdate() {
+    var last = data[data.length-1];
+    if(data.length > 19){
+    	data.shift();
+    }
+    var newlast = last + getRandomInt(-3,3);
+    if(newlast < 0)
+    	newlast = 0;
+    data.push(newlast);
+    if (plot1) {
+    	plot1.destroy();
+    }
+    plot1.series[0].data = data; 
+    plot1.replot( {resetAxes: true } );
+    plot1 = $.jqplot ('myChart', [data],options);
+    setTimeout(doUpdate, 1000)
+}
+
+
+});
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+<button>Start Updates</button>	
+</BODY>
+</HTML>

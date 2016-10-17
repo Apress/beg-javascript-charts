@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style>	
+body {
+  font: 14px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.x.axis path {
+  display: none;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var margin = {top: 70, right: 20, bottom: 30, left: 40},
+    w = 500 - margin.left - margin.right,
+    h = 350 - margin.top - margin.bottom;
+
+var color =  d3.scale.category10();
+	
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, w], .1);
+
+var y = d3.scale.linear()
+	.range([h, 0]);
+
+var formatPercent = d3.format(".0%");
+	
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(formatPercent);  
+	
+var yGrid = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(5)
+    .tickSize(-w, 0, 0)
+    .tickFormat("")  
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w + margin.left + margin.right)
+    .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("data_05.csv", function(error, data) {
+
+  color.domain(d3.keys(data[0]).filter(function(key) {   
+             return key !== "Country"; }));
+
+  var sum= 0;
+  data.forEach(function(d){
+  	d.Electronics = +d.Electronics;
+  	d.Mechanics = +d.Mechanics;
+  	d.Software = +d.Software;
+  	sum = sum +d.Electronics +d.Mechanics +d.Software;
+  });
+  
+
+
+  data.forEach(function(d) {
+    var y0 = 0;
+    d.countries = color.domain().map(function(name) { 
+        return {name: name, y0: y0/sum, y1: (y0 += +d[name])/sum }; });
+    d.total = d.countries[d.countries.length - 1].y1;
+    console.log(d.countries);
+  });
+  
+  data.sort(function(a, b) { return b.total - a.total; }); 
+
+  x.domain(data.map(function(d) { return d.Country; }));
+  y.domain([0, d3.max(data, function(d) { return d.total; })]);
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      
+  svg.append("g")         
+      .attr("class", "grid")
+      .call(yGrid);      
+
+  var country = svg.selectAll(".country")
+      .data(data)
+      .enter().append("g")
+      .attr("class", "country")
+      .attr("transform", function(d) { 
+             return "translate(" + x(d.Country) + ",0)"; });
+
+  country.selectAll("rect")
+      .data(function(d) { return d.countries; })
+      .enter().append("rect")
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.y1); })
+      .attr("height", function(d) { return (y(d.y0) - y(d.y1)); })
+      .style("fill", function(d) { return color(d.name); });
+
+var legend = svg.selectAll(".legend")
+      .data(color.domain().slice().reverse())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { 
+               return "translate(0," + i * 20 + ")"; });
+   
+  legend.append("rect")
+      .attr("x", w - 18)
+      .attr("y", 4)
+      .attr("width", 10)
+      .attr("height", 10)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", w - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+var labels = svg.append("g")
+       .attr("class","labels")
+     
+  labels.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("x", 50)
+      .attr("y", -20)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Income [%]");
+      
+  var title = svg.append("g")
+      .attr("class","title")
+     
+  title.append("text")
+      .attr("x", (w / 2))             
+      .attr("y", -30 )
+      .attr("text-anchor", "middle")  
+      .style("font-size", "22px") 
+      .text("A Stacked Bar Chart");
+</script>
+</body>
+</html>
+
+

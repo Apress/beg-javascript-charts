@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<!--[if lt IE 9]><script type="text/javascript" src="../src/excanvas.js"></script><![endif]-->
+<script type="text/javascript" src="../src/jquery.min.js"></script>
+<script type="text/javascript" src="../src/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../src/jquery.jqplot.min.css" />
+
+<script type="text/javascript" src="../src/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="../src/plugins/jqplot.pointLabels.min.js"></script>
+
+<script class="code" type="text/javascript">
+$(document).ready(function(){
+  var data = [['Germany',12],['Italy',8],['Spain',6],['France',10],['UK',7]]
+  var line = [['BMW',45],['Alfa Romeo',30],['Seat',24],
+              ['Renault',36],['Mini',30]]
+
+var options = {
+        animate: true,
+        animateReplot: true,
+        title: 'Foreign Customers',
+        series:[{
+	    renderer:$.jqplot.BarRenderer,
+	    rendererOptions: { 
+                    animation: {
+                       	 speed: 2500
+                    },
+            }
+        }, 
+        {
+	xaxis:'x2axis', 
+	yaxis:'y2axis',
+	rendererOptions: { 
+                      animation: {
+            	           speed: 2500
+        	             },
+         }
+      }],
+      axes: {
+	 xaxis: { renderer: $.jqplot.CategoryAxisRenderer  },
+	 x2axis: {renderer: $.jqplot.CategoryAxisRenderer  },
+	 yaxis: { autoscale:true, numberTicks: 6 },
+	 y2axis: { autoscale:true, numberTicks: 6 }
+       }
+  };
+
+
+$.jqplot ('myChart', [data,line],options);
+
+});
+
+
+</script>
+</HEAD>	
+<BODY>
+<div id="myChart" style="height:300px; width:500px;"></div>
+</BODY>
+</HTML>

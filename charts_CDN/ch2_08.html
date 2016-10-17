@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script> 
+<style>
+.ui-button .ui-icon-italy {
+    background-image: url("icon/exit24x24.png");
+    width: 24px;
+    height: 24px; 
+}
+</style>
+</HEAD>	
+<BODY>
+<button>Button with icon only</button>
+<button>Button with custom icon on the left</button>
+<button>Button with two icons</button>
+<button>Button with two icons and no text</button>
+<script>
+$(function() {
+    $( "button:first" ).button({
+        icons: {
+            primary: "ui-icon-locked"
+        },
+        text: false
+    }).next().button({
+        icons: {
+            primary: "ui-icon-italy"
+        }
+    }).next().button({
+        icons: {
+            primary: "ui-icon-gear",
+            secondary: "ui-icon-triangle-1-s"
+        }
+    }).next().button({
+        icons: {
+            primary: "ui-icon-gear",
+            secondary: "ui-icon-triangle-1-s"
+        },
+        text: false
+    });
+});
+</script>	
+</BODY>
+</HTML> 

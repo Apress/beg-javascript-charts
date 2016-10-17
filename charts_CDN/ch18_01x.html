@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jqplot/1.0.8/jquery.jqplot.min.css" />
+<script class="code" type="text/javascript">
+$(document).ready(function(){	
+      var serie1 = [1,2,3,2,3,4];
+      var serie2 = [3,4,5,6,5,7];
+      var serie3 = [5,6,8,9,7,9];
+      var serie4 = [7,8,9,11,10,11];
+      $.jqplot ('myChart', [serie1,serie2,serie3,serie4]);
+});
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 500px; height: 400px;"></div>
+</body>
+</html>

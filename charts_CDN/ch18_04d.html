@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Highcharts - line chart</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/3.0.5/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/themes/dark-green.js"></script>
+<script class="code" type="text/javascript">
+$(function () {
+	
+     var data2 = [['Analysis',5], ['Designing',10], ['Developing',20], 
+		         ['Deploying',5],['Test',28],['Debugging',23],['Sale',9]];
+	
+		var options = {
+			colors:  ['#65Af43','#FFE76D','#BB43F2','#A50f33','#15CACA','#612BF3','#FF8E04'],
+            chart: {
+
+            },
+		    title: {
+		        text: 'Developing of the X Weapon'
+		    },    
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Calories'
+                }
+            },
+            tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.y}%</b>',
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    showInLegend: true,
+                    slicedOffset: 20
+                }
+            },
+            series: [{
+		    	type: 'pie',
+	            name: 'Budget',
+	            data: data2,
+	            borderColor: '#888888',
+		        borderWidth: 1,
+	            dataLabels: {
+		            enabled: true,
+		            color: '#bbbbbb',
+		            connectorColor: '#bbbbbb',
+		            format: '{point.name}: <b>{point.y}%</div></b>'
+		        },
+            }]
+        }
+	
+        $('#myChart').highcharts(options);
+    });
+</script>
+</head>
+<body>
+<div id="myChart" style="width: 600px; height: 400px;"></div>
+</body>
+</html>
